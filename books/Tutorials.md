@@ -9,3 +9,11 @@
 
 
 ```
+
+## Guide
+```shell
+https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/get-started/index.html
+
+
+https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/get-started/linux-macos-setup.html
+```
