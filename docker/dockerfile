@@ -1,0 +1,62 @@
+FROM ubuntu:22.04
+
+# 设置非交互式环境
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 安装所有必要的依赖项
+RUN apt-get update 
+RUN apt-get upgrade -y 
+RUN apt-get install software-properties-common python3-software-properties -y
+
+# install compilers
+RUN apt-get install -y gcc g++
+RUN apt-get install -y cmake
+RUN apt-get install -y ninja-build
+RUN apt-get install -y make
+RUN apt-get install -y git
+RUN apt-get install -y python3 python3-pip 
+RUN pip3 install gitpython
+RUN pip3 install pyzmq
+RUN apt-get install -y autoconf automake libtool unzip tar net-tools iputils-ping rsync
+
+
+# Tools
+RUN apt-get install wget -y     
+RUN apt-get install curl -y   
+RUN apt-get install vim -y    
+RUN apt-get install nano -y 
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git wget flex bison gperf cmake ninja-build ccache \
+    python3 python3-pip python3-venv \
+    libffi-dev libssl-dev dfu-util libusb-1.0-0 udev \
+    && rm -rf /var/lib/apt/lists/*
+
+# 设置 ESP-IDF 版本（使用最新稳定版）
+ARG ESP_IDF_VERSION=v5.1.2
+RUN git clone --recursive --branch $ESP_IDF_VERSION https://github.com/espressif/esp-idf.git /opt/esp-idf
+
+# 安装 ESP-IDF
+WORKDIR /opt/esp-idf
+RUN ./install.sh
+
+# 安装额外的 Python 依赖
+RUN pip3 install --no-cache-dir \
+    pyparsing==2.4.7 pyserial future cryptography
+
+# 设置环境变量
+ENV IDF_PATH=/opt/esp-idf
+RUN echo "source $IDF_PATH/export.sh" >> /etc/profile
+
+# # 复制 udev 规则并应用
+# COPY 99-esp32.rules /etc/udev/rules.d/99-esp32.rules
+# RUN udevadm control --reload-rules && udevadm trigger
+
+# 创建工作目录
+WORKDIR /workspace
+
+# 暴露常用端口（用于 OTA 更新等）
+EXPOSE 80 443 8080
+
+# 启动 shell 以允许交互式开发
+CMD ["/bin/bash"]

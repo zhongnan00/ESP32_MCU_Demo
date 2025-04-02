@@ -1,0 +1,11 @@
+version: "3.0"
+
+services:
+  demolearn:
+    image: esp32mcudemo:latest
+    restart: always
+    tty: true
+    volumes:
+      - /home/liuchao/github/ESP32_MCU_Demo:/home/workspace
+    ports:
+      - "8080:8080"
