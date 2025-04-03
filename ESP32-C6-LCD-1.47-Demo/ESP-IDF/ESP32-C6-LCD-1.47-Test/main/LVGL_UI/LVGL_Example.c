@@ -36,6 +36,7 @@ static lv_timer_t * auto_step_timer;
 
 static lv_timer_t * meter2_timer;
 
+lv_obj_t * panel1_title;
 lv_obj_t * SD_Size;
 lv_obj_t * FlashSize;
 lv_obj_t * Board_angle;
@@ -90,15 +91,13 @@ void Lvgl_Example1(void){
 
   tv = lv_tabview_create(lv_scr_act(), LV_DIR_TOP, tab_h);
 
-  lv_obj_set_style_text_font(lv_scr_act(), font_normal, 0);
+  lv_obj_set_style_text_font(lv_scr_act(), font_large, 0);
 
 
-  lv_obj_t * t1 = lv_tabview_add_tab(tv, "Onboard");
+  lv_obj_t * t1 = lv_tabview_add_tab(tv, "Medtronic");
   
   
   Onboard_create(t1);
-  
-  
 }
 
 void Lvgl_Example1_close(void)
@@ -129,26 +128,31 @@ static void Onboard_create(lv_obj_t * parent)
   lv_obj_t * panel1 = lv_obj_create(parent);
   lv_obj_set_height(panel1, LV_SIZE_CONTENT);
 
-  lv_obj_t * panel1_title = lv_label_create(panel1);
-  lv_label_set_text(panel1_title, "Onboard parameter");
-  lv_obj_add_style(panel1_title, &style_title, 0);
+  // lv_obj_t * panel1_title = lv_label_create(panel1);
+  // lv_label_set_text(panel1_title, "Onboard parameter");
+  // lv_obj_add_style(panel1_title, &style_title, 0);
+
+  panel1_title = lv_textarea_create(panel1);
+  lv_textarea_set_one_line(panel1_title, true);
+  lv_textarea_set_placeholder_text(panel1_title, "24T00032");
+  // lv_obj_add_event_cb(Wireless_Scan, ta_event_cb, LV_EVENT_ALL, NULL);
 
   lv_obj_t * SD_label = lv_label_create(panel1);
-  lv_label_set_text(SD_label, "SD Card");
+  lv_label_set_text(SD_label, "ICP");             //pressure
   lv_obj_add_style(SD_label, &style_text_muted, 0);
 
   SD_Size = lv_textarea_create(panel1);
   lv_textarea_set_one_line(SD_Size, true);
-  lv_textarea_set_placeholder_text(SD_Size, "SD Size");
+  // lv_textarea_set_placeholder_text(SD_Size, "SD Size");
   lv_obj_add_event_cb(SD_Size, ta_event_cb, LV_EVENT_ALL, NULL);
 
   lv_obj_t * Flash_label = lv_label_create(panel1);
-  lv_label_set_text(Flash_label, "Flash Size");
+  lv_label_set_text(Flash_label, "ICT");                //temperature
   lv_obj_add_style(Flash_label, &style_text_muted, 0);
 
   FlashSize = lv_textarea_create(panel1);
   lv_textarea_set_one_line(FlashSize, true);
-  lv_textarea_set_placeholder_text(FlashSize, "Flash Size");
+  // lv_textarea_set_placeholder_text(FlashSize, "Flash Size");
   lv_obj_add_event_cb(FlashSize, ta_event_cb, LV_EVENT_ALL, NULL);
 
   lv_obj_t * Wireless_label = lv_label_create(panel1);
@@ -178,25 +182,25 @@ static void Onboard_create(lv_obj_t * parent)
                                         LV_GRID_TEMPLATE_LAST
                                         };
 
-  lv_obj_set_grid_dsc_array(panel1, grid_1_col_dsc, grid_1_row_dsc);
+  // lv_obj_set_grid_dsc_array(panel1, grid_1_col_dsc, grid_1_row_dsc);
 
 
   static lv_coord_t grid_2_col_dsc[] = {LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
   static lv_coord_t grid_2_row_dsc[] = {
     LV_GRID_CONTENT,  /*Title*/
-    5,                /*Separator*/
+    1,                /*Separator*/
     LV_GRID_CONTENT,  /*Box title*/
-    40,               /*Box*/
+    35,               /*Box*/
     LV_GRID_CONTENT,  /*Box title*/
-    40,               /*Box*/
+    35,               /*Box*/
     LV_GRID_CONTENT,  /*Box title*/
-    40,               /*Box*/
+    35,               /*Box*/
     LV_GRID_CONTENT,  /*Box title*/
-    40,               /*Box*/
+    35,               /*Box*/
     LV_GRID_CONTENT,  /*Box title*/
-    40,               /*Box*/
+    35,               /*Box*/
     LV_GRID_CONTENT,  /*Box title*/
-    40,               /*Box*/
+    35,               /*Box*/
     LV_GRID_TEMPLATE_LAST               
   };
 
