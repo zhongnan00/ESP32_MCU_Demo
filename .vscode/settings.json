@@ -33,6 +33,10 @@
         "variant": "cpp",
         "vector": "c",
         "random": "c",
-        "wireless.h": "c"
+        "wireless.h": "c",
+        "chrono": "c",
+        "initializer_list": "cpp",
+        "string.h": "c",
+        "i2c_eeprom.h": "c"
     }
 }

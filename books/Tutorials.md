@@ -44,9 +44,8 @@ https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/get-started/linux
  2044  idf.py build
  2045  idf.py flash
  2046  sudo idf.py flash
- 2047  sudo useradd -aG dialout $USER
  2048  sudo usermod -aG dialout $USER
- 2049  history
+ 2049  newgrp dialout       //solve the permission problem
 
 ```
 
