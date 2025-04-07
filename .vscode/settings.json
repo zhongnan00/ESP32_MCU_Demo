@@ -37,6 +37,14 @@
         "chrono": "c",
         "initializer_list": "cpp",
         "string.h": "c",
-        "i2c_eeprom.h": "c"
-    }
+        "i2c_eeprom.h": "c",
+        "inttypes.h": "c",
+        "sd_spi.h": "c",
+        "lvgl.h": "c",
+        "stdint.h": "c",
+        "soft_i2c_master.h": "c",
+        "*.tcc": "c"
+    },
+    "security.workspace.trust.enabled":false,
+    "webview.experimental.useIframes": true
 }

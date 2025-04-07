@@ -16,8 +16,8 @@
 
 static const char *TAG = "i2c-tools";
 
-static gpio_num_t i2c_gpio_sda = CONFIG_EXAMPLE_I2C_MASTER_SDA;
-static gpio_num_t i2c_gpio_scl = CONFIG_EXAMPLE_I2C_MASTER_SCL;
+static gpio_num_t i2c_gpio_sda = 3;
+static gpio_num_t i2c_gpio_scl = 2;
 
 static i2c_port_t i2c_port = I2C_NUM_0;
 

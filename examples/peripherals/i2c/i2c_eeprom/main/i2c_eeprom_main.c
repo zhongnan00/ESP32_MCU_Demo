@@ -12,11 +12,11 @@
 #include "driver/i2c_master.h"
 #include "i2c_eeprom.h"
 
-#define SCL_IO_PIN CONFIG_I2C_MASTER_SCL
-#define SDA_IO_PIN CONFIG_I2C_MASTER_SDA
+#define SCL_IO_PIN 2
+#define SDA_IO_PIN 3
 #define MASTER_FREQUENCY CONFIG_I2C_MASTER_FREQUENCY
-#define PORT_NUMBER -1
-#define LENGTH 48
+#define PORT_NUMBER 1
+#define LENGTH 4
 
 static void disp_buf(uint8_t *buf, int len)
 {
@@ -61,7 +61,7 @@ void app_main(void)
     ESP_ERROR_CHECK(i2c_eeprom_init(bus_handle, &eeprom_config, &eeprom_handle));
 
     while (1) {
-        ESP_ERROR_CHECK(i2c_eeprom_write(eeprom_handle, block_addr, buf, LENGTH));
+        // ESP_ERROR_CHECK(i2c_eeprom_write(eeprom_handle, block_addr, buf, LENGTH));
         // Needs wait for eeprom hardware done, referring from datasheet
         i2c_eeprom_wait_idle(eeprom_handle);
         ESP_ERROR_CHECK(i2c_eeprom_read(eeprom_handle, block_addr, read_buf, LENGTH));
