@@ -43,7 +43,12 @@
         "lvgl.h": "c",
         "stdint.h": "c",
         "soft_i2c_master.h": "c",
-        "*.tcc": "c"
+        "*.tcc": "c",
+        "lv_anim_timeline.h": "c",
+        "esp_log.h": "c",
+        "regex": "c",
+        "esp_rom_sys.h": "c",
+        "gpio.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

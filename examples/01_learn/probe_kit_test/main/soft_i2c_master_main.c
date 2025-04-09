@@ -38,7 +38,7 @@ void app_main(void)
 
     /* Read from the device. The register that will be read cannot be pre-determined, it will depend on the device's
      * internal counter. Let's simply make sure the function returns correctly. */
-    uint8_t read_buffer[] = { 0x0 };
+    uint8_t read_buffer[] = { 0xA0,0xA1,0xA2,0xA3 };
     ret = soft_i2c_master_read(bus, I2C_DEVICE_ADDRESS, read_buffer, sizeof(read_buffer));
     ESP_GOTO_ON_ERROR(ret, error, EXAMPLE_TAG, "Error reading from the I2C device");
 
@@ -47,7 +47,7 @@ void app_main(void)
     // ret = soft_i2c_master_write_read(bus, I2C_DEVICE_ADDRESS, write_buffer, 1, read_buffer, 1);
     // ESP_GOTO_ON_ERROR(ret, error, EXAMPLE_TAG, "Error reading a register from the I2C device");
 
-    ESP_LOGI(EXAMPLE_TAG, "I2C transfers succeeded, received byte 0x%02x", read_buffer[0]);
+    ESP_LOGI(EXAMPLE_TAG, "I2C transfers succeeded, received byte 0x%02x 0x%02x 0x%02x 0x%02x", read_buffer[0], read_buffer[1], read_buffer[2],read_buffer[3]);
 
 
     // //read from EEPROM
