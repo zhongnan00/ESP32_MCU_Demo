@@ -6,4 +6,4 @@ set(srcs "soft_i2c_master_main.c")
 
 idf_component_register(SRCS "${srcs}"
                        INCLUDE_DIRS "."
-                       PRIV_REQUIRES driver lib_soft_i2c)
+                       PRIV_REQUIRES driver lib_soft_i2c sensors)

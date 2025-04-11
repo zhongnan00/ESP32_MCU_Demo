@@ -59,7 +59,13 @@
         "lib_soft_i2c.h": "c",
         "esp_err.h": "c",
         "clk_tree_defs.h": "c",
-        "assert.h": "c"
+        "assert.h": "c",
+        "sensor_eeprom.h": "c",
+        "sensor_ntc.h": "c",
+        "sensor_elmos.h": "c",
+        "cmath": "c",
+        "complex": "c",
+        "math.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

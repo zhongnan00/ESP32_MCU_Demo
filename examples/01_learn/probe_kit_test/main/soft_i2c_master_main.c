@@ -4,17 +4,19 @@
  * SPDX-License-Identifier: CC0-1.0
  */
 #include <stdio.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 #include "sdkconfig.h"
 #include "esp_log.h"
 #include "esp_check.h"
 #include "lib_soft_i2c.h"
-// #include "soft_i2c_master.h"
+#include "sensor_eeprom.h"
+#include "sensor_elmos.h"
+#include "sensor_ntc.h"
+
 
 /* I2C device address to communicate with */
-#define I2C_DEVICE_ADDRESS 0x50
-#define I2C_EEPROM_ADDRESS 0x50
-#define I2C_ELMOS_ADDRESS  0x6C
-#define I2C_NTC_ADDRESS    0x40
+
 
 const char* EXAMPLE_TAG = "soft_i2c_master";
 
@@ -29,12 +31,24 @@ void app_main(void)
 
     lib_soft_i2c_init(eepro_cfg);
 
-    uint8_t buffer[8]={0x0};
-    lib_soft_i2c_read_bytes(EXAMPLE_TAG, I2C_NUM_0, 0x50, 0xA0, buffer, 8);
-    ESP_LOGI(EXAMPLE_TAG, "I2C NTC read succeeded, received %02x bytes", buffer[0]);
-    for(int i=0;i<8;i++)
+    char buffer[10]={0x0};
+    eeprom_get_sn(buffer);
+    ESP_LOGI(EXAMPLE_TAG, "SN: %s", buffer);
+    ntc_config();
+    ntc_sync_start();
+
+    while(1)
     {
-        ESP_LOGI(EXAMPLE_TAG, "byte %d: 0x%02x", i, buffer[i]);
+        ntc_sync_start();
+        vTaskDelay(pdMS_TO_TICKS(1000));
+ 
+        float pressure = elmos_get_pressure();
+        ESP_LOGI(EXAMPLE_TAG, "Pressure: %.02f", pressure);
+
+        float temp = ntc_read_temp();
+        ESP_LOGI(EXAMPLE_TAG, "Temperature: %.02f", temp);
+
     }
+
 }
 
