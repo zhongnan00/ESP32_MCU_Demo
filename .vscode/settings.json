@@ -65,7 +65,12 @@
         "sensor_elmos.h": "c",
         "cmath": "c",
         "complex": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "rgb.h": "c",
+        "lv_hal_tick.h": "c",
+        "lvgl_example.h": "c",
+        "lvgl_driver.h": "c",
+        "esp_check.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

@@ -7,6 +7,10 @@ idf_component_register(
                               "SD_Card/SD_SPI.c"
                               "RGB/RGB.c"
                               "Wireless/Wireless.c"
+                              "lib_soft_i2c/lib_soft_i2c.c"
+                              "sensors/sensor_eeprom.c" 
+                              "sensors/sensor_elmos.c" 
+                              "sensors/sensor_ntc.c"
 
                          INCLUDE_DIRS 
                               "./LCD_Driver/Vernon_ST7789T" 
@@ -15,6 +19,8 @@ idf_component_register(
                               "./LVGL_UI" 
                               "./SD_Card"
                               "./RGB" 
-                              "./Wireless"
+                              "./Wireless" 
+                              "lib_soft_i2c" 
+                              "sensors"
                               "."
                        )
