@@ -1,4 +1,6 @@
 #include "LVGL_Example.h"
+#include "lvgl.h"
+
 
 /**********************
  *      TYPEDEFS
@@ -241,6 +243,40 @@ void example1_increase_lvgl_tick(lv_timer_t * t)
 
 static void ta_event_cb(lv_event_t * e)
 {
+}
+
+
+void Lvgl_HomePage(void){
+
+  disp_size = DISP_SMALL;                            
+  font_large = LV_FONT_DEFAULT;                             
+  font_normal = LV_FONT_DEFAULT;  
+
+  static lv_style_t square_style;
+  lv_style_init(&square_style);
+  lv_style_set_bg_color(&square_style, lv_color_hex(0x007AFF)); //blue
+  lv_style_set_border_width(&square_style, 0);
+  lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
+  lv_style_set_radius(&square_style, 0);
+  
+  static lv_style_t label_style;
+  lv_style_init(&label_style);
+  lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //white
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_12);
+  // lv_style_set_transform_angle(&label_style, 900);
+  // lv_style_set_transform_pivot_x(&label_style, 0);
+  // lv_style_set_transform_pivot_y(&label_style, 0);
+  
+  lv_obj_t *square = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square, 172, 40);
+  lv_obj_add_style(square, &square_style, 0);
+  lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 0);
+
+  lv_obj_t *label = lv_label_create(square);
+  lv_label_set_text(label, "Medtronic ICP Kits");
+  lv_obj_add_style(label, &label_style, 0);
+  lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+
 }
 
 

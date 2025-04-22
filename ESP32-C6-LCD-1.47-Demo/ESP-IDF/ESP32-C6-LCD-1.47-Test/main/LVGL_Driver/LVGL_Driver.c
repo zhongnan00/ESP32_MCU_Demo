@@ -76,7 +76,8 @@ void LVGL_Init(void)
     ESP_LOGI(TAG_LVGL, "Register display driver to LVGL");
     lv_disp_drv_init(&disp_drv);                                                                        // Create a new screen object and initialize the associated device
     disp_drv.hor_res = EXAMPLE_LCD_H_RES;             
-    disp_drv.ver_res = EXAMPLE_LCD_V_RES;                                                     // Horizontal pixel count
+    disp_drv.ver_res = EXAMPLE_LCD_V_RES;     
+    // disp_drv.sw_rotate = 1;                                                // Horizontal pixel count
     // disp_drv.rotated = LV_DISP_ROT_90; // 图像旋转                                                            // Vertical axis pixel count
     disp_drv.flush_cb = example_lvgl_flush_cb;                                                          // Function : copy a buffer's content to a specific area of the display
     disp_drv.drv_update_cb = example_lvgl_port_update_callback;                                         // Function : Rotate display and touch, when rotated screen in LVGL. Called when driver parameters are updated. 
@@ -85,6 +86,9 @@ void LVGL_Init(void)
     ESP_LOGI(TAG_LVGL,"Register display indev to LVGL");                                                  // Custom display driver user data
     disp = lv_disp_drv_register(&disp_drv);                                                  // Create screen objects
     
+    // if touch panel is used, register touch driver to LVGL
+
+
     /********************* LVGL *********************/
     ESP_LOGI(TAG_LVGL, "Install LVGL tick timer");
     // Tick interface for LVGL (using esp_timer to generate 2ms periodic event)
@@ -98,3 +102,5 @@ void LVGL_Init(void)
     ESP_ERROR_CHECK(esp_timer_start_periodic(lvgl_tick_timer, EXAMPLE_LVGL_TICK_PERIOD_MS * 1000));
 
 }
+
+

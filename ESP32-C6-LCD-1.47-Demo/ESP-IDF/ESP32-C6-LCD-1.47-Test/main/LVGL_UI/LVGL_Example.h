@@ -11,3 +11,5 @@
 
 
 void Lvgl_Example1(void);
+
+void Lvgl_HomePage(void);
