@@ -45,7 +45,11 @@ void app_main(void)
     // lv_demo_music();
 
     Lvgl_HomePage();
-
+    lvgl_icp_block();
+    lvgl_temp_block();
+    lvgl_wifi_block();
+    lvgl_battery_block();
+    lvgl_bluetooth_block();
     while (1) {
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
         // ntc_sync_start();

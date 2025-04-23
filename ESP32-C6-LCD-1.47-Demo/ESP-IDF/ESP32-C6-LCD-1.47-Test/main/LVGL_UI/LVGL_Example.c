@@ -45,6 +45,13 @@ lv_obj_t * Board_angle;
 lv_obj_t * RTC_Time;
 lv_obj_t * Wireless_Scan;
 
+//*********************************** */
+
+lv_obj_t *square_head;
+lv_obj_t *label_head ;
+
+
+//*********************************** */
 
 
 void IRAM_ATTR auto_switch(lv_timer_t * t)
@@ -246,6 +253,36 @@ static void ta_event_cb(lv_event_t * e)
 }
 
 
+
+static void lvgl_creat_element(lv_font_t label_font, uint32_t bk_color, uint32_t label_color, lv_obj_t* bk_obj, lv_obj_t* label_obj){
+
+  lv_style_t square_style;
+  lv_style_init(&square_style);
+  lv_style_set_bg_color(&square_style, lv_color_hex(bk_color)); //blue
+  lv_style_set_border_width(&square_style, 0);
+  lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
+  lv_style_set_radius(&square_style, 0);
+  
+  lv_style_t label_style;
+  lv_style_init(&label_style);
+  lv_style_set_text_color(&label_style, lv_color_hex(label_color)); //white
+  lv_style_set_text_font(&label_style, &label_font);
+  // lv_style_set_transform_angle(&label_style, 900);
+  // lv_style_set_transform_pivot_x(&label_style, 0);
+  // lv_style_set_transform_pivot_y(&label_style, 0);
+  
+  // lv_obj_t *square = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(bk_obj, 172, 40);
+  lv_obj_add_style(bk_obj, &square_style, 0);
+  lv_obj_align(bk_obj, LV_ALIGN_TOP_LEFT, 0, 0);
+
+  // lv_obj_t *label = lv_label_create(square);
+  // lv_label_set_text(label_obj, "Medtronic ICP Kits");
+  lv_obj_add_style(label_obj, &label_style, 0);
+  lv_obj_align(label_obj, LV_ALIGN_CENTER, 0, 0);
+}
+
+
 void Lvgl_HomePage(void){
 
   disp_size = DISP_SMALL;                            
@@ -254,15 +291,15 @@ void Lvgl_HomePage(void){
 
   static lv_style_t square_style;
   lv_style_init(&square_style);
-  lv_style_set_bg_color(&square_style, lv_color_hex(0x007AFF)); //blue
+  lv_style_set_bg_color(&square_style, lv_color_hex(0xFFFFFF)); //blue,0x007AFF
   lv_style_set_border_width(&square_style, 0);
   lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
   lv_style_set_radius(&square_style, 0);
   
   static lv_style_t label_style;
   lv_style_init(&label_style);
-  lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //white
-  lv_style_set_text_font(&label_style, &lv_font_montserrat_12);
+  lv_style_set_text_color(&label_style, lv_color_hex(0x000000)); //white
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_14);
   // lv_style_set_transform_angle(&label_style, 900);
   // lv_style_set_transform_pivot_x(&label_style, 0);
   // lv_style_set_transform_pivot_y(&label_style, 0);
@@ -273,13 +310,187 @@ void Lvgl_HomePage(void){
   lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 0);
 
   lv_obj_t *label = lv_label_create(square);
-  lv_label_set_text(label, "Medtronic ICP Kits");
+  lv_label_set_text(label, "ID: 24T00032");
   lv_obj_add_style(label, &label_style, 0);
   lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
 
 }
 
+void lvgl_icp_block(void)
+{
+
+  disp_size = DISP_SMALL;                            
+  font_large = LV_FONT_DEFAULT;                             
+  font_normal = LV_FONT_DEFAULT;  
+
+  static lv_style_t square_style;
+  lv_style_init(&square_style);
+  lv_style_set_bg_color(&square_style, lv_color_hex(0x154360)); //blue,0x007AFF
+  lv_style_set_border_width(&square_style, 0);
+  lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
+  lv_style_set_radius(&square_style, 0);
+  
+  static lv_style_t label_style;
+  lv_style_init(&label_style);
+  lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //white
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_48);
+  // lv_style_set_transform_angle(&label_style, 900);
+  // lv_style_set_transform_pivot_x(&label_style, 0);
+  // lv_style_set_transform_pivot_y(&label_style, 0);
+  
+  lv_obj_t *square = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square, 172, 100);
+  lv_obj_add_style(square, &square_style, 0);
+  lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 40);
+
+  lv_obj_t *label = lv_label_create(square);
+  lv_label_set_text(label, "150");
+  lv_obj_add_style(label, &label_style, 0);
+  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
+
+  static lv_style_t label_style_mmhg;
+  lv_style_init(&label_style_mmhg);
+  lv_style_set_text_color(&label_style_mmhg, lv_color_hex(0xFFFFFF)); //white
+  lv_style_set_text_font(&label_style_mmhg, &lv_font_montserrat_14);
+
+  lv_obj_t *label_mmhg = lv_label_create(square);
+  lv_label_set_text(label_mmhg, "ICP(mmHg) [-40/150]");
+  lv_obj_add_style(label_mmhg, &label_style_mmhg, 0);
+  lv_obj_align(label_mmhg, LV_ALIGN_TOP_RIGHT, 0, 0);
+
+}
 
 
+void lvgl_temp_block(void)
+{
 
+  disp_size = DISP_SMALL;                            
+  font_large = LV_FONT_DEFAULT;                             
+  font_normal = LV_FONT_DEFAULT;  
 
+  static lv_style_t square_style;
+  lv_style_init(&square_style);
+  lv_style_set_bg_color(&square_style, lv_color_hex(0xA569BD)); //blue,0x007AFF
+  lv_style_set_border_width(&square_style, 0);
+  lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
+  lv_style_set_radius(&square_style, 0);
+  
+  static lv_style_t label_style;
+  lv_style_init(&label_style);
+  lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_48);
+
+  lv_obj_t *square = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square, 172, 100);
+  lv_obj_add_style(square, &square_style, 0);
+  lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 141);
+
+  lv_obj_t *label = lv_label_create(square);
+  lv_label_set_text(label, "38.5");
+  lv_obj_add_style(label, &label_style, 0);
+  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
+
+  static lv_style_t label_style_mmhg;
+  lv_style_init(&label_style_mmhg);
+  lv_style_set_text_color(&label_style_mmhg, lv_color_hex(0xFFFFFF)); //white
+  lv_style_set_text_font(&label_style_mmhg, &lv_font_montserrat_14);
+
+  lv_obj_t *label_mmhg = lv_label_create(square);
+  lv_label_set_text(label_mmhg, "Temp(°C) [20/45]");
+  lv_obj_add_style(label_mmhg, &label_style_mmhg, 0);
+  lv_obj_align(label_mmhg, LV_ALIGN_TOP_RIGHT, 0, 0);
+
+}
+
+void lvgl_wifi_block(void)
+{
+
+  disp_size = DISP_SMALL;                            
+  font_large = LV_FONT_DEFAULT;                             
+  font_normal = LV_FONT_DEFAULT;  
+
+  static lv_style_t square_style;
+  lv_style_init(&square_style);
+  lv_style_set_bg_color(&square_style, lv_color_hex(0xCC6699)); //blue,0x007AFF
+  lv_style_set_border_width(&square_style, 0);
+  lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
+  lv_style_set_radius(&square_style, 0);
+  
+  static lv_style_t label_style;
+  lv_style_init(&label_style);
+  lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_14);
+
+  lv_obj_t *square_wifi = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square_wifi, 172, 40);
+  lv_obj_add_style(square_wifi, &square_style, 0);
+  lv_obj_align(square_wifi, LV_ALIGN_TOP_LEFT, 0, 242);
+
+  lv_obj_t *label_wifi = lv_label_create(square_wifi);
+  lv_label_set_text(label_wifi, "WLAN--> 10.152.177.194");
+  lv_obj_add_style(label_wifi, &label_style, 0);
+  lv_obj_align(label_wifi, LV_ALIGN_BOTTOM_MID, 0, 0);
+
+}
+
+void lvgl_battery_block(void)
+{
+
+  disp_size = DISP_SMALL;                            
+  font_large = LV_FONT_DEFAULT;                             
+  font_normal = LV_FONT_DEFAULT;  
+
+  static lv_style_t square_style;
+  lv_style_init(&square_style);
+  lv_style_set_bg_color(&square_style, lv_color_hex(0x66CC00)); //blue,0x007AFF
+  lv_style_set_border_width(&square_style, 0);
+  lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
+  lv_style_set_radius(&square_style, 0);
+  
+  static lv_style_t label_style;
+  lv_style_init(&label_style);
+  lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_14);
+
+  lv_obj_t *square_battery = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square_battery, 60, 35);
+  lv_obj_add_style(square_battery, &square_style, 0);
+  lv_obj_align(square_battery, LV_ALIGN_TOP_LEFT, 0, 283);
+
+  lv_obj_t *label_battery = lv_label_create(square_battery);
+  lv_label_set_text(label_battery, "90\%");
+  lv_obj_add_style(label_battery, &label_style, 0);
+  lv_obj_align(label_battery, LV_ALIGN_BOTTOM_MID, 0, 0);
+
+}
+
+void lvgl_bluetooth_block(void)
+{
+
+  disp_size = DISP_SMALL;                            
+  font_large = LV_FONT_DEFAULT;                             
+  font_normal = LV_FONT_DEFAULT;  
+
+  static lv_style_t square_style;
+  lv_style_init(&square_style);
+  lv_style_set_bg_color(&square_style, lv_color_hex(0x0000CC)); //blue,0x007AFF
+  lv_style_set_border_width(&square_style, 0);
+  lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
+  lv_style_set_radius(&square_style, 0);
+  
+  static lv_style_t label_style;
+  lv_style_init(&label_style);
+  lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_14);
+
+  lv_obj_t *square_bk = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square_bk, 50, 35);
+  lv_obj_add_style(square_bk, &square_style, 0);
+  lv_obj_align(square_bk, LV_ALIGN_TOP_LEFT, 61, 283);
+
+  lv_obj_t *label_bk = lv_label_create(square_bk);
+  lv_label_set_text(label_bk, "BT");
+  lv_obj_add_style(label_bk, &label_style, 0);
+  lv_obj_align(label_bk, LV_ALIGN_BOTTOM_MID, 0, 0);
+
+}

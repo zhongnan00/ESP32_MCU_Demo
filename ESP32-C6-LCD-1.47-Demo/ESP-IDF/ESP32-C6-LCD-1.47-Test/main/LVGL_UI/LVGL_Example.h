@@ -13,3 +13,13 @@
 void Lvgl_Example1(void);
 
 void Lvgl_HomePage(void);
+
+void lvgl_icp_block(void);
+
+void lvgl_temp_block(void);
+
+void lvgl_wifi_block(void);
+
+void lvgl_battery_block(void);
+
+void lvgl_bluetooth_block(void);
