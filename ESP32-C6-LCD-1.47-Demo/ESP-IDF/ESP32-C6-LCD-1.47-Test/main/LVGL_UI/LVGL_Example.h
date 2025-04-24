@@ -12,7 +12,7 @@
 
 void Lvgl_Example1(void);
 
-void Lvgl_HomePage(void);
+void lvgl_head_block(void);
 
 void lvgl_icp_block(void);
 
@@ -23,3 +23,10 @@ void lvgl_wifi_block(void);
 void lvgl_battery_block(void);
 
 void lvgl_bluetooth_block(void);
+
+
+void lvgl_update_head_block(char* id);
+
+void lvgl_update_icp_block(float icp);
+
+void lvgl_update_temp_block(float temp);

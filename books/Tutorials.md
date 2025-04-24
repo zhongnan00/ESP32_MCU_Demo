@@ -138,3 +138,16 @@ rst:0xc (SW_CPU),boot:0x6f (SPI_FAST_FLASH_BOOT)
 Saved PC:0x4001975a
 --- 0x4001975a: software_reset_cpu in ROM
 ```
+
+
+
+## MQTT
+```shell
+sudo apt update
+sudo apt install mosquitto mosquitto-clients
+
+liuchao@liuchao-linux:~$ ip addr show |grep inet
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host 
+    inet 10.152.177.194/23 brd 10.152.177.255 scope global dynamic noprefixroute enp0s31f
+```

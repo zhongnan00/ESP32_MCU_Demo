@@ -94,6 +94,7 @@ esp_err_t ntc_sync_start(void)
 
 float ntc_read_temp(void)
 {
+
     uint8_t data[3];
     ntc_read_bytes(0x10, data, 3);
 

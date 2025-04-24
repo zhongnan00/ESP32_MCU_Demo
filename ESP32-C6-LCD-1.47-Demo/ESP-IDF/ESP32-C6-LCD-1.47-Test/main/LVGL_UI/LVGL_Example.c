@@ -49,6 +49,8 @@ lv_obj_t * Wireless_Scan;
 
 lv_obj_t *square_head;
 lv_obj_t *label_head ;
+lv_obj_t *label_icp;
+lv_obj_t *label_temp;
 
 
 //*********************************** */
@@ -283,7 +285,13 @@ static void lvgl_creat_element(lv_font_t label_font, uint32_t bk_color, uint32_t
 }
 
 
-void Lvgl_HomePage(void){
+void lvgl_update_head_block(char* id){
+  // char buf[32];
+  // snprintf(buf,sizeof(buf),"ID: %s",id);
+  lv_label_set_text(label_head, id);
+}
+
+void lvgl_head_block(void){
 
   disp_size = DISP_SMALL;                            
   font_large = LV_FONT_DEFAULT;                             
@@ -299,22 +307,29 @@ void Lvgl_HomePage(void){
   static lv_style_t label_style;
   lv_style_init(&label_style);
   lv_style_set_text_color(&label_style, lv_color_hex(0x000000)); //white
-  lv_style_set_text_font(&label_style, &lv_font_montserrat_14);
-  // lv_style_set_transform_angle(&label_style, 900);
-  // lv_style_set_transform_pivot_x(&label_style, 0);
-  // lv_style_set_transform_pivot_y(&label_style, 0);
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_24);
   
-  lv_obj_t *square = lv_obj_create(lv_scr_act());
-  lv_obj_set_size(square, 172, 40);
-  lv_obj_add_style(square, &square_style, 0);
-  lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 0);
+  square_head = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square_head, 172, 40);
+  lv_obj_add_style(square_head, &square_style, 0);
+  lv_obj_align(square_head, LV_ALIGN_TOP_LEFT, 0, 0);
 
-  lv_obj_t *label = lv_label_create(square);
-  lv_label_set_text(label, "ID: 24T00032");
-  lv_obj_add_style(label, &label_style, 0);
-  lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+  label_head = lv_label_create(square_head);
+  lv_label_set_text(label_head, "--------");
+  lv_obj_add_style(label_head, &label_style, 0);
+  lv_obj_align(label_head, LV_ALIGN_CENTER, 0, 0);
 
 }
+
+
+void lvgl_update_icp_block(float icp)
+{
+  char buf[32];
+  snprintf(buf,sizeof(buf),"%d",(int)(icp/100));
+  lv_label_set_text(label_icp,buf);
+ 
+}
+
 
 void lvgl_icp_block(void)
 {
@@ -334,19 +349,16 @@ void lvgl_icp_block(void)
   lv_style_init(&label_style);
   lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //white
   lv_style_set_text_font(&label_style, &lv_font_montserrat_48);
-  // lv_style_set_transform_angle(&label_style, 900);
-  // lv_style_set_transform_pivot_x(&label_style, 0);
-  // lv_style_set_transform_pivot_y(&label_style, 0);
   
   lv_obj_t *square = lv_obj_create(lv_scr_act());
   lv_obj_set_size(square, 172, 100);
   lv_obj_add_style(square, &square_style, 0);
   lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 40);
 
-  lv_obj_t *label = lv_label_create(square);
-  lv_label_set_text(label, "150");
-  lv_obj_add_style(label, &label_style, 0);
-  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
+  label_icp = lv_label_create(square);
+  lv_label_set_text(label_icp, "---");
+  lv_obj_add_style(label_icp, &label_style, 0);
+  lv_obj_align(label_icp, LV_ALIGN_BOTTOM_MID, 0, 0);
 
   static lv_style_t label_style_mmhg;
   lv_style_init(&label_style_mmhg);
@@ -360,6 +372,13 @@ void lvgl_icp_block(void)
 
 }
 
+
+void lvgl_update_temp_block(float temp)
+{
+  char buf[32];
+  snprintf(buf,sizeof(buf),"%.1f",temp);
+  lv_label_set_text(label_temp,buf);
+}
 
 void lvgl_temp_block(void)
 {
@@ -385,10 +404,10 @@ void lvgl_temp_block(void)
   lv_obj_add_style(square, &square_style, 0);
   lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 141);
 
-  lv_obj_t *label = lv_label_create(square);
-  lv_label_set_text(label, "38.5");
-  lv_obj_add_style(label, &label_style, 0);
-  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
+  label_temp = lv_label_create(square);
+  lv_label_set_text(label_temp, "--.-");
+  lv_obj_add_style(label_temp, &label_style, 0);
+  lv_obj_align(label_temp, LV_ALIGN_BOTTOM_MID, 0, 0);
 
   static lv_style_t label_style_mmhg;
   lv_style_init(&label_style_mmhg);
@@ -419,7 +438,7 @@ void lvgl_wifi_block(void)
   static lv_style_t label_style;
   lv_style_init(&label_style);
   lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
-  lv_style_set_text_font(&label_style, &lv_font_montserrat_14);
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_16);
 
   lv_obj_t *square_wifi = lv_obj_create(lv_scr_act());
   lv_obj_set_size(square_wifi, 172, 40);
@@ -427,7 +446,7 @@ void lvgl_wifi_block(void)
   lv_obj_align(square_wifi, LV_ALIGN_TOP_LEFT, 0, 242);
 
   lv_obj_t *label_wifi = lv_label_create(square_wifi);
-  lv_label_set_text(label_wifi, "WLAN--> 10.152.177.194");
+  lv_label_set_text(label_wifi, "10.152.177.194");
   lv_obj_add_style(label_wifi, &label_style, 0);
   lv_obj_align(label_wifi, LV_ALIGN_BOTTOM_MID, 0, 0);
 
@@ -450,7 +469,7 @@ void lvgl_battery_block(void)
   static lv_style_t label_style;
   lv_style_init(&label_style);
   lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
-  lv_style_set_text_font(&label_style, &lv_font_montserrat_14);
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_16);
 
   lv_obj_t *square_battery = lv_obj_create(lv_scr_act());
   lv_obj_set_size(square_battery, 60, 35);
@@ -481,7 +500,7 @@ void lvgl_bluetooth_block(void)
   static lv_style_t label_style;
   lv_style_init(&label_style);
   lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
-  lv_style_set_text_font(&label_style, &lv_font_montserrat_14);
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_16);
 
   lv_obj_t *square_bk = lv_obj_create(lv_scr_act());
   lv_obj_set_size(square_bk, 50, 35);
