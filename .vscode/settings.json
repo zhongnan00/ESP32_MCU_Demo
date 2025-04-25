@@ -111,7 +111,9 @@
         "esp_event_base.h": "c",
         "algorithm": "c",
         "esp_transport.h": "c",
-        "thread": "c"
+        "thread": "c",
+        "esp_bt.h": "c",
+        "dhcpserver.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

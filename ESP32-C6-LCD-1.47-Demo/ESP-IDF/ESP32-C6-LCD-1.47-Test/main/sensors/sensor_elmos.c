@@ -10,7 +10,6 @@
  */
 
 #include "sensor_elmos.h"
-
 #include "lib_soft_i2c.h"
 
 static const char *TAG = "sensor_elmos";

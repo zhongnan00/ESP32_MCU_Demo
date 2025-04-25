@@ -1,5 +1,6 @@
 #include "LVGL_Example.h"
 #include "lvgl.h"
+#include "mqtt_app.h"
 
 
 /**********************
@@ -51,7 +52,7 @@ lv_obj_t *square_head;
 lv_obj_t *label_head ;
 lv_obj_t *label_icp;
 lv_obj_t *label_temp;
-
+lv_obj_t *label_wifi;
 
 //*********************************** */
 
@@ -286,9 +287,11 @@ static void lvgl_creat_element(lv_font_t label_font, uint32_t bk_color, uint32_t
 
 
 void lvgl_update_head_block(char* id){
-  // char buf[32];
-  // snprintf(buf,sizeof(buf),"ID: %s",id);
+  char buf[64];
+  snprintf(buf,sizeof(buf),"{\"name\":\"\"%s,\"msg\":\"%s\"}","probe_sn",id);
+  mqtt_publish_message(buf);
   lv_label_set_text(label_head, id);
+
 }
 
 void lvgl_head_block(void){
@@ -326,8 +329,11 @@ void lvgl_update_icp_block(float icp)
 {
   char buf[32];
   snprintf(buf,sizeof(buf),"%d",(int)(icp/100));
+  char mqtt_msg[64];
+  snprintf(mqtt_msg,sizeof(mqtt_msg),"{\"name\":\"\"%s,\"msg\":%0.1f}","icp",icp/100);
+  mqtt_publish_message(mqtt_msg);
   lv_label_set_text(label_icp,buf);
- 
+
 }
 
 
@@ -377,6 +383,10 @@ void lvgl_update_temp_block(float temp)
 {
   char buf[32];
   snprintf(buf,sizeof(buf),"%.1f",temp);
+
+  char mqtt_msg[64];
+  snprintf(mqtt_msg,sizeof(mqtt_msg),"{\"name\":\"\"%s,\"msg\":%0.1f}","temp",temp);
+  mqtt_publish_message(mqtt_msg);
   lv_label_set_text(label_temp,buf);
 }
 
@@ -421,6 +431,11 @@ void lvgl_temp_block(void)
 
 }
 
+void lvgl_update_wifi_block(const char* ip_addr)
+{
+  lv_label_set_text(label_wifi,ip_addr);
+}
+
 void lvgl_wifi_block(void)
 {
 
@@ -445,7 +460,7 @@ void lvgl_wifi_block(void)
   lv_obj_add_style(square_wifi, &square_style, 0);
   lv_obj_align(square_wifi, LV_ALIGN_TOP_LEFT, 0, 242);
 
-  lv_obj_t *label_wifi = lv_label_create(square_wifi);
+  label_wifi = lv_label_create(square_wifi);
   lv_label_set_text(label_wifi, "10.152.177.194");
   lv_obj_add_style(label_wifi, &label_style, 0);
   lv_obj_align(label_wifi, LV_ALIGN_BOTTOM_MID, 0, 0);

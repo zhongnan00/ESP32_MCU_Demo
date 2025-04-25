@@ -21,45 +21,45 @@ static bool   s_is_mqtt_connected = false;
 
 
 static const char *TAG = "MQTT";
-static esp_mqtt_client_handle_t client = NULL;
+// static esp_mqtt_client_handle_t client = NULL;
 
-static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
-{
-    esp_mqtt_event_handle_t event = event_data;
-    switch ((esp_mqtt_event_id_t)event_id) {
-        case MQTT_EVENT_CONNECTED:
-            ESP_LOGI(TAG, "MQTT connected");
-            esp_mqtt_client_subscribe(client, "/esp32/test", 0);
-            esp_mqtt_client_publish(client, "/esp32/test", "hello from ESP32", 0, 0, 0);
-            break;
-        case MQTT_EVENT_DISCONNECTED:
-            ESP_LOGW(TAG, "MQTT disconnected");
-            break;
-        case MQTT_EVENT_DATA:
-            ESP_LOGI(TAG, "Topic: %.*s", event->topic_len, event->topic);
-            ESP_LOGI(TAG, "Data: %.*s", event->data_len, event->data);
-            break;
-        default:
-            break;
-    }
-}
+// static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
+// {
+//     esp_mqtt_event_handle_t event = event_data;
+//     switch ((esp_mqtt_event_id_t)event_id) {
+//         case MQTT_EVENT_CONNECTED:
+//             ESP_LOGI(TAG, "MQTT connected");
+//             esp_mqtt_client_subscribe(client, "/esp32/test", 0);
+//             esp_mqtt_client_publish(client, "/esp32/test", "hello from ESP32", 0, 0, 0);
+//             break;
+//         case MQTT_EVENT_DISCONNECTED:
+//             ESP_LOGW(TAG, "MQTT disconnected");
+//             break;
+//         case MQTT_EVENT_DATA:
+//             ESP_LOGI(TAG, "Topic: %.*s", event->topic_len, event->topic);
+//             ESP_LOGI(TAG, "Data: %.*s", event->data_len, event->data);
+//             break;
+//         default:
+//             break;
+//     }
+// }
 
-void mqtt_app_start(void)
-{
-    // esp_mqtt_client_config_t mqtt_cfg = {
-    //     .url = "mqtt://10.152.177.194", // Replace with your broker IP
-    //     .reconnect_timeout_ms = 5000,
-    // };
+// void mqtt_app_start(void)
+// {
+//     // esp_mqtt_client_config_t mqtt_cfg = {
+//     //     .url = "mqtt://10.152.177.194", // Replace with your broker IP
+//     //     .reconnect_timeout_ms = 5000,
+//     // };
 
-    const esp_mqtt_client_config_t mqtt_cfg = {
-        .broker.address.uri = "mqtt://192.168.1.101",
-        .network.disable_auto_reconnect = true,
-};
+//     const esp_mqtt_client_config_t mqtt_cfg = {
+//         .broker.address.uri = "mqtt://192.168.1.101",
+//         .network.disable_auto_reconnect = true,
+// };
 
-    client = esp_mqtt_client_init(&mqtt_cfg);
-    esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
-    esp_mqtt_client_start(client);
-}
+//     client = esp_mqtt_client_init(&mqtt_cfg);
+//     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
+//     esp_mqtt_client_start(client);
+// }
 
 
 
@@ -85,7 +85,7 @@ static void aliot_mqtt_event_handler(void* event_handler_arg,
             s_is_mqtt_connected = true;
             //连接成功后，订阅测试主题
             esp_mqtt_client_subscribe_single(s_mqtt_client,MQTT_SUBSCRIBE_TOPIC,1);
-            mqtt_publish_message("hello from esp32");
+            mqtt_publish_message("{\"name\":\"\"hello,\"msg\":\"hello mqtt\"}");
             break;
         case MQTT_EVENT_DISCONNECTED:   //连接断开
             ESP_LOGI(TAG, "mqtt disconnected");
@@ -97,7 +97,7 @@ static void aliot_mqtt_event_handler(void* event_handler_arg,
         case MQTT_EVENT_UNSUBSCRIBED:   //收到解订阅消息ACK
             break;
         case MQTT_EVENT_PUBLISHED:      //收到发布消息ACK
-            ESP_LOGI(TAG, "mqtt publish ack, msg_id=%d", event->msg_id);
+            // ESP_LOGI(TAG, "mqtt publish ack, msg_id=%d", event->msg_id);
             break;
         case MQTT_EVENT_DATA:
             printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);       //收到Pub消息直接打印出来
@@ -119,6 +119,7 @@ static void aliot_mqtt_event_handler(void* event_handler_arg,
 */
 void mqtt_start(void)
 {
+    esp_log_level_set("MQTT_CLIENT",ESP_LOG_ERROR);
     esp_mqtt_client_config_t mqtt_cfg = {0};
     mqtt_cfg.broker.address.uri = MQTT_ADDRESS;
     mqtt_cfg.network.timeout_ms = 10000;
@@ -142,15 +143,9 @@ void mqtt_start(void)
 
 void mqtt_publish_message(const char* msg)
 {
-    // char mqtt_pub_buff[64];
-    // if(s_is_mqtt_connected)
-    // {
-    //     snprintf(mqtt_pub_buff,64,"{\"count\":\"%d\",\"msg\":\"%s\"}",1,msg);
-    //     esp_mqtt_client_publish(s_mqtt_client, MQTT_PUBLIC_TOPIC,
-    //                     mqtt_pub_buff, strlen(mqtt_pub_buff),1, 0);
-    // }
+    //"{\"name\":\"\"hello,\"msg\":\"hello mqtt\"}"
 
-
-    esp_mqtt_client_publish(s_mqtt_client, MQTT_PUBLIC_TOPIC,
-        msg, strlen(msg),1, 0);
+    if(s_is_mqtt_connected){
+        esp_mqtt_client_publish(s_mqtt_client, MQTT_PUBLIC_TOPIC,msg, strlen(msg),1, 0);
+    }
 }

@@ -16,7 +16,7 @@ void simple_wifi_sta_init();
 //WIFI STA初始化
 esp_err_t wifi_sta_init(wifi_event_cb f);
 
-
+esp_err_t wifi_get_ip_addr(char *ip_addr);
 
 
 #endif

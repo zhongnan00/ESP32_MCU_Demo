@@ -15,22 +15,23 @@
 #include "esp_netif.h"
 
 #include "mqtt_app.h"
+#include "LVGL_Example.h"
 
 //需要把这两个修改成你家WIFI，测试是否连接成功
 #define DEFAULT_WIFI_SSID           "uFi-D195"
 #define DEFAULT_WIFI_PASSWORD       "1234567890"
 
 static const char *TAG = "wifi";
-
 static EventGroupHandle_t   s_wifi_ev = NULL;
+static bool s_wifi_connected = false;
+static char s_ip_addr[16];
+
 //定义一个事件组，用于通知main函数WIFI连接成功
 #define WIFI_CONNECT_BIT     BIT0
 
 
 //事件通知回调函数
 static wifi_event_cb    wifi_cb = NULL;
-
-
 
 
 void wifi_event_handler(WIFI_EV_e ev)
@@ -64,6 +65,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,int32_t event_i
         case WIFI_EVENT_STA_DISCONNECTED:   //WIFI从路由器断开连接后触发此事件
             esp_wifi_connect();             //继续重连
             ESP_LOGI(TAG,"connect to the AP fail,retry now");
+            s_wifi_connected = false;
             break;
         default:
             break;
@@ -74,12 +76,21 @@ static void event_handler(void* arg, esp_event_base_t event_base,int32_t event_i
         switch(event_id)
         {
             case IP_EVENT_STA_GOT_IP:           //只有获取到路由器分配的IP，才认为是连上了路由器
-            ESP_LOGI(TAG,"get ip address");
-            if(wifi_cb)
-                wifi_cb(WIFI_CONNECTED);
+            {
+                // ESP_LOGI(TAG,"get ip address");
+                esp_netif_ip_info_t ip_info;
+                esp_netif_get_ip_info(esp_netif_get_handle_from_ifkey("WIFI_STA_DEF"), &ip_info);
+                ESP_LOGI(TAG,"==========ip:" IPSTR, IP2STR(&ip_info.ip));
+                snprintf(s_ip_addr, sizeof(s_ip_addr), IPSTR, IP2STR(&ip_info.ip));
+                s_wifi_connected = true;
+                if(wifi_cb)
+                    wifi_cb(WIFI_CONNECTED);
+                
 
-            mqtt_start();
-            break;
+                lvgl_update_wifi_block(s_ip_addr);
+                break;
+            }
+
         }
     }
 }
@@ -102,6 +113,10 @@ void simple_wifi_sta_init(){
 
     //一直监听WIFI连接事件，直到WiFi连接成功后，才启动MQTT连接
     ev = xEventGroupWaitBits(s_wifi_ev,WIFI_CONNECT_BIT,pdTRUE,pdFALSE,portMAX_DELAY);
+
+    if(ev & WIFI_CONNECT_BIT){
+        mqtt_start();
+    }
 }
 
 //WIFI STA初始化
@@ -142,5 +157,15 @@ esp_err_t wifi_sta_init(wifi_event_cb f)
     ESP_ERROR_CHECK(esp_wifi_start() );                         //启动WIFI
     
     ESP_LOGI(TAG, "wifi_init_sta finished.");
+    return ESP_OK;
+}
+
+
+esp_err_t wifi_get_ip_addr(char *ip_addr)
+{
+    if(s_wifi_connected == false)
+        return ESP_FAIL;
+    
+    snprintf(ip_addr, sizeof(s_ip_addr), "%s", s_ip_addr);
     return ESP_OK;
 }

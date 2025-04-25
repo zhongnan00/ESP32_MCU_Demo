@@ -30,3 +30,5 @@ void lvgl_update_head_block(char* id);
 void lvgl_update_icp_block(float icp);
 
 void lvgl_update_temp_block(float temp);
+
+void lvgl_update_wifi_block(const char* ip_addr);

@@ -26,7 +26,7 @@ const char* EXAMPLE_TAG = "ESP32C6";
 
 void app_main(void)
 {
-    // Wireless_Init();
+
     Flash_Searching();
     RGB_Init();
     RGB_Example();
@@ -45,29 +45,40 @@ void app_main(void)
     lvgl_battery_block();
     lvgl_bluetooth_block();
 
+    simple_wifi_sta_init();
+
     probe_i2c_bus_init();
-    char buffer[10]={0x0};
-    eeprom_get_sn(buffer);
-    ESP_LOGI(EXAMPLE_TAG, "SN: %s", buffer);
-    lvgl_update_head_block(buffer);
+    char probe_sn[10]={0x0};
+    eeprom_get_sn(probe_sn);
+    ESP_LOGI(EXAMPLE_TAG, "SN: %s", probe_sn);
+    lvgl_update_head_block(probe_sn);
+
     ntc_config();
     ntc_sync_start();
     
-    simple_wifi_sta_init();
-    // mqtt_app_start();
+    int counter = 0;
 
     while (1) {
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
-        // ntc_sync_start();
-        vTaskDelay(pdMS_TO_TICKS(100));
+        ntc_sync_start();
+        vTaskDelay(pdMS_TO_TICKS(10));
         // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
         lv_timer_handler();
-        // float pressure = elmos_get_pressure();
-        // lvgl_update_icp_block(pressure);
-        // float temp = ntc_read_temp();
-        // lvgl_update_temp_block(temp);
-        // ESP_LOGI(EXAMPLE_TAG, "Pressure: %.02f", pressure);
-        // ESP_LOGI(EXAMPLE_TAG, "Temperature: %.02f", temp);
+
+        ++counter;
+        if(counter % 10 == 0){
+            float pressure = elmos_get_pressure();
+            lvgl_update_icp_block(pressure);
+            // ESP_LOGI(EXAMPLE_TAG, "Pressure: %.02f", pressure);
+        }
+        
+        if(counter % 100 == 0){
+            float temp = ntc_read_temp();
+            lvgl_update_temp_block(temp);
+            // ESP_LOGI(EXAMPLE_TAG, "Temperature: %.02f", temp);
+
+            counter = 0;
+        }
 
     }
 }
