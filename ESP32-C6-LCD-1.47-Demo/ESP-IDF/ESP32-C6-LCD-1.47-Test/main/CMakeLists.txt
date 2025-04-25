@@ -13,6 +13,7 @@ idf_component_register(
                               "sensors/sensor_eeprom.c" 
                               "sensors/sensor_elmos.c" 
                               "sensors/sensor_ntc.c"
+                              "common/lib_ring_buffer.c"
                               
 
                          INCLUDE_DIRS 
@@ -25,5 +26,6 @@ idf_component_register(
                               "./Wireless" 
                               "lib_soft_i2c" 
                               "sensors"
+                              "common"
                               "."
                        )

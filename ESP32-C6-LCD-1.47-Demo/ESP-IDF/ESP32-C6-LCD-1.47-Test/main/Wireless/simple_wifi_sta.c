@@ -66,6 +66,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,int32_t event_i
             esp_wifi_connect();             //继续重连
             ESP_LOGI(TAG,"connect to the AP fail,retry now");
             s_wifi_connected = false;
+            memset(s_ip_addr, 0, sizeof(s_ip_addr));    //clear the ip
             break;
         default:
             break;
@@ -164,7 +165,10 @@ esp_err_t wifi_sta_init(wifi_event_cb f)
 esp_err_t wifi_get_ip_addr(char *ip_addr)
 {
     if(s_wifi_connected == false)
+    {
+        
         return ESP_FAIL;
+    }
     
     snprintf(ip_addr, sizeof(s_ip_addr), "%s", s_ip_addr);
     return ESP_OK;

@@ -19,10 +19,10 @@
 
 // #include "mqtt_app.h"
 #include "simple_wifi_sta.h"
-
+#include "lib_ring_buffer.h"
 
 const char* EXAMPLE_TAG = "ESP32C6";
-
+ring_buffer_t icp_ring_buffer;
 
 void app_main(void)
 {
@@ -57,6 +57,8 @@ void app_main(void)
     ntc_sync_start();
     
     int counter = 0;
+    ring_buffer_init(&icp_ring_buffer);
+
 
     while (1) {
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
@@ -66,17 +68,38 @@ void app_main(void)
         lv_timer_handler();
 
         ++counter;
-        if(counter % 10 == 0){
+        if(counter % 3 == 0){
             float pressure = elmos_get_pressure();
-            lvgl_update_icp_block(pressure);
-            // ESP_LOGI(EXAMPLE_TAG, "Pressure: %.02f", pressure);
+            
+            if(ring_buffer_is_full(&icp_ring_buffer))
+            {
+                ring_buffer_pop_only(&icp_ring_buffer);
+            }
+
+            ring_buffer_push(&icp_ring_buffer, (int)(pressure*100));
+
+            lvgl_update_icp_block(pressure, true);
+            // ESP_LOGI(EXAMPLE_TAG, "Pressure: %d", (int)(pressure*100));
+        }
+
+        if(counter % 22 == 0){
+            float temp = ntc_read_temp();
+            lvgl_update_temp_block(temp);
+            // ESP_LOGI(EXAMPLE_TAG, "Temperature: %0.1f", temp);
         }
         
         if(counter % 100 == 0){
-            float temp = ntc_read_temp();
-            lvgl_update_temp_block(temp);
-            // ESP_LOGI(EXAMPLE_TAG, "Temperature: %.02f", temp);
 
+            float pressure = 0;
+            for(int i=0; i<icp_ring_buffer.count; i++){
+                pressure += icp_ring_buffer.buffer[i];
+                // printf("%d ", icp_ring_buffer.buffer[i]);
+            }
+            // printf("\n");
+            pressure /= icp_ring_buffer.count;
+            pressure /= 100;
+            lvgl_update_icp_block(pressure, false);
+            lvgl_update_wifi_mqtt();
             counter = 0;
         }
 

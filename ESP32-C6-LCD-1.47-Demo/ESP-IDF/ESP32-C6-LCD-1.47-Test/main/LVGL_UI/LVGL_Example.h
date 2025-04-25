@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdio.h>
 #include "lvgl.h"
 #include "demos/lv_demos.h"
 
@@ -27,8 +28,11 @@ void lvgl_bluetooth_block(void);
 
 void lvgl_update_head_block(char* id);
 
-void lvgl_update_icp_block(float icp);
+void lvgl_update_icp_block(float icp, bool is_push);
 
 void lvgl_update_temp_block(float temp);
 
 void lvgl_update_wifi_block(const char* ip_addr);
+
+
+void lvgl_update_wifi_mqtt();

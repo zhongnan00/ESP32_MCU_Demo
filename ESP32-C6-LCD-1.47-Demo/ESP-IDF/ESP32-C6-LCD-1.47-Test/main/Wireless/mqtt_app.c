@@ -1,4 +1,7 @@
 // mqtt_app.c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 #include "mqtt_app.h"
 #include "mqtt_client.h"
 #include "esp_log.h"
@@ -62,6 +65,10 @@ static const char *TAG = "MQTT";
 // }
 
 
+bool mqtt_is_connected(void)
+{
+    return s_is_mqtt_connected;
+}
 
 
 

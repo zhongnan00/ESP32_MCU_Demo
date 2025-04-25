@@ -1,7 +1,7 @@
 #include "LVGL_Example.h"
 #include "lvgl.h"
 #include "mqtt_app.h"
-
+#include "simple_wifi_sta.h"
 
 /**********************
  *      TYPEDEFS
@@ -325,14 +325,21 @@ void lvgl_head_block(void){
 }
 
 
-void lvgl_update_icp_block(float icp)
+void lvgl_update_icp_block(float icp, bool is_push)
 {
-  char buf[32];
-  snprintf(buf,sizeof(buf),"%d",(int)(icp/100));
-  char mqtt_msg[64];
-  snprintf(mqtt_msg,sizeof(mqtt_msg),"{\"name\":\"\"%s,\"msg\":%0.1f}","icp",icp/100);
-  mqtt_publish_message(mqtt_msg);
-  lv_label_set_text(label_icp,buf);
+ 
+  if(is_push){
+    char mqtt_msg[64];
+    snprintf(mqtt_msg,sizeof(mqtt_msg),"{\"n\":\"%s\",\"v\":%d}","icp",(int)icp);
+    mqtt_publish_message(mqtt_msg);
+  }
+  else
+  {
+    
+    char buf[32];
+    snprintf(buf,sizeof(buf),"%d",(int)(icp/100));
+    lv_label_set_text(label_icp,buf);
+  }
 
 }
 
@@ -385,7 +392,7 @@ void lvgl_update_temp_block(float temp)
   snprintf(buf,sizeof(buf),"%.1f",temp);
 
   char mqtt_msg[64];
-  snprintf(mqtt_msg,sizeof(mqtt_msg),"{\"name\":\"\"%s,\"msg\":%0.1f}","temp",temp);
+  snprintf(mqtt_msg,sizeof(mqtt_msg),"{\"n\":\"%s\",\"v\":%d}","ict",(int)(temp*100));
   mqtt_publish_message(mqtt_msg);
   lv_label_set_text(label_temp,buf);
 }
@@ -429,6 +436,24 @@ void lvgl_temp_block(void)
   lv_obj_add_style(label_mmhg, &label_style_mmhg, 0);
   lv_obj_align(label_mmhg, LV_ALIGN_TOP_RIGHT, 0, 0);
 
+}
+
+void lvgl_update_wifi_mqtt()
+{
+    char wifi_addr[32];
+    if(wifi_get_ip_addr(wifi_addr)==ESP_OK)
+    {
+      if(mqtt_is_connected()){
+        lv_label_set_text_fmt(label_wifi,"%s (OK)",wifi_addr);
+      }
+      else{
+        lv_label_set_text_fmt(label_wifi,"%s (FAIL)",wifi_addr);
+      }
+    }
+    else
+    {
+      lv_label_set_text(label_wifi,"--.--.--.-- (FAIL)");
+    }
 }
 
 void lvgl_update_wifi_block(const char* ip_addr)

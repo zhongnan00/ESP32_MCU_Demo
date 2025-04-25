@@ -113,7 +113,9 @@
         "esp_transport.h": "c",
         "thread": "c",
         "esp_bt.h": "c",
-        "dhcpserver.h": "c"
+        "dhcpserver.h": "c",
+        "lib_ring_buffer.h": "c",
+        "memory.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
