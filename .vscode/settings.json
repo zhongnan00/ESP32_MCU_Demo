@@ -115,7 +115,8 @@
         "esp_bt.h": "c",
         "dhcpserver.h": "c",
         "lib_ring_buffer.h": "c",
-        "memory.h": "c"
+        "memory.h": "c",
+        "set": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

@@ -36,3 +36,5 @@ void lvgl_update_wifi_block(const char* ip_addr);
 
 
 void lvgl_update_wifi_mqtt();
+
+void lvgl_update_probe_sn();

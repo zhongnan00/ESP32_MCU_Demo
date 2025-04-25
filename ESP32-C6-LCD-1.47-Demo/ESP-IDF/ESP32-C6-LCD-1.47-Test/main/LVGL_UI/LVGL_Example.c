@@ -2,6 +2,7 @@
 #include "lvgl.h"
 #include "mqtt_app.h"
 #include "simple_wifi_sta.h"
+#include "sensor_eeprom.h"
 
 /**********************
  *      TYPEDEFS
@@ -54,6 +55,8 @@ lv_obj_t *label_icp;
 lv_obj_t *label_temp;
 lv_obj_t *label_wifi;
 
+
+char probe_sn_str[16]={0x0};
 //*********************************** */
 
 
@@ -294,6 +297,20 @@ void lvgl_update_head_block(char* id){
 
 }
 
+void lvgl_update_probe_sn()
+{
+
+  if(eeprom_get_sn(probe_sn_str)==ESP_OK)
+  {
+    lvgl_update_head_block(probe_sn_str);
+  }
+  else{
+    lv_label_set_text(label_head,"--------");
+    printf("ESP32 i2c read probe_ sn fail\r\n");
+  }
+  
+}
+
 void lvgl_head_block(void){
 
   disp_size = DISP_SMALL;                            
@@ -486,7 +503,7 @@ void lvgl_wifi_block(void)
   lv_obj_align(square_wifi, LV_ALIGN_TOP_LEFT, 0, 242);
 
   label_wifi = lv_label_create(square_wifi);
-  lv_label_set_text(label_wifi, "10.152.177.194");
+  lv_label_set_text(label_wifi, "--.--.--.-- (---)");
   lv_obj_add_style(label_wifi, &label_style, 0);
   lv_obj_align(label_wifi, LV_ALIGN_BOTTOM_MID, 0, 0);
 

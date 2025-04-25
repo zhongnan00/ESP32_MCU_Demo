@@ -7,6 +7,7 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_check.h"
+// #include "esp_vfs_dev.h"
 #include "ST7789.h"
 #include "SD_SPI.h"
 #include "RGB.h"
@@ -44,21 +45,23 @@ void app_main(void)
     lvgl_wifi_block();
     lvgl_battery_block();
     lvgl_bluetooth_block();
+    lv_timer_handler();
 
     simple_wifi_sta_init();
+    lv_timer_handler();
 
     probe_i2c_bus_init();
     char probe_sn[10]={0x0};
     eeprom_get_sn(probe_sn);
     ESP_LOGI(EXAMPLE_TAG, "SN: %s", probe_sn);
     lvgl_update_head_block(probe_sn);
-
+    lv_timer_handler();
     ntc_config();
     ntc_sync_start();
     
     int counter = 0;
     ring_buffer_init(&icp_ring_buffer);
-
+    lv_timer_handler();
 
     while (1) {
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
@@ -86,6 +89,8 @@ void app_main(void)
             float temp = ntc_read_temp();
             lvgl_update_temp_block(temp);
             // ESP_LOGI(EXAMPLE_TAG, "Temperature: %0.1f", temp);
+
+            lvgl_update_probe_sn();
         }
         
         if(counter % 100 == 0){
