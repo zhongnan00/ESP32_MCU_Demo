@@ -364,7 +364,8 @@ void _lv_disp_refr_timer(lv_timer_t * tmr)
     lv_obj_t * perf_label = perf_monitor.perf_label;
     if(perf_label == NULL) {
         perf_label = lv_label_create(lv_layer_sys());
-        lv_obj_set_style_bg_opa(perf_label, LV_OPA_50, 0);
+        // lv_obj_set_style_bg_opa(perf_label, LV_OPA_50, 0);
+        lv_obj_set_style_bg_opa(perf_label, LV_OPA_10, 0);
         lv_obj_set_style_bg_color(perf_label, lv_color_black(), 0);
         lv_obj_set_style_text_color(perf_label, lv_color_white(), 0);
         lv_obj_set_style_pad_top(perf_label, 3, 0);
@@ -413,7 +414,8 @@ void _lv_disp_refr_timer(lv_timer_t * tmr)
         perf_monitor.fps_sum_all += fps;
         perf_monitor.fps_sum_cnt ++;
         uint32_t cpu = 100 - lv_timer_get_idle();
-        lv_label_set_text_fmt(perf_label, "%"LV_PRIu32" FPS\n%"LV_PRIu32"%% CPU", fps, cpu);
+        // lv_label_set_text_fmt(perf_label, "%"LV_PRIu32" FPS\n%"LV_PRIu32"%% CPU", fps, cpu);
+        lv_label_set_text_fmt(perf_label, "%"LV_PRIu32"\n%"LV_PRIu32"%%", fps, cpu);
     }
 #endif
 

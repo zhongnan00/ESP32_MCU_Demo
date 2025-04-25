@@ -116,7 +116,10 @@
         "dhcpserver.h": "c",
         "lib_ring_buffer.h": "c",
         "memory.h": "c",
-        "set": "c"
+        "set": "c",
+        "lv_timer.h": "c",
+        "lv_snapshot.h": "c",
+        "semaphore": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
