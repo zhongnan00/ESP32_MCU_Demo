@@ -333,11 +333,12 @@ void lvgl_head_block(void){
   lv_obj_set_size(square_head, 172, 40);
   lv_obj_add_style(square_head, &square_style, 0);
   lv_obj_align(square_head, LV_ALIGN_TOP_LEFT, 0, 0);
+  lv_obj_clear_flag(square_head, LV_OBJ_FLAG_SCROLLABLE);
 
   label_head = lv_label_create(square_head);
   lv_label_set_text(label_head, "--------");
   lv_obj_add_style(label_head, &label_style, 0);
-  lv_obj_align(label_head, LV_ALIGN_BOTTOM_MID, 0, 0);
+  lv_obj_align(label_head, LV_ALIGN_CENTER, 0, 0);
 
 }
 
@@ -532,6 +533,7 @@ void lvgl_battery_block(void)
   lv_obj_set_size(square_battery, 70, 35);
   lv_obj_add_style(square_battery, &square_style, 0);
   lv_obj_align(square_battery, LV_ALIGN_TOP_LEFT, 0, 283);
+  lv_obj_clear_flag(square_battery, LV_OBJ_FLAG_SCROLLABLE);
 
   lv_obj_t *label_battery = lv_label_create(square_battery);
   lv_label_set_text(label_battery, "90%");
@@ -563,6 +565,7 @@ void lvgl_bluetooth_block(void)
   lv_obj_set_size(square_bk, 70, 35);
   lv_obj_add_style(square_bk, &square_style, 0);
   lv_obj_align(square_bk, LV_ALIGN_TOP_LEFT, 71, 283);
+  lv_obj_clear_flag(square_bk, LV_OBJ_FLAG_SCROLLABLE);
 
   lv_obj_t *label_bk = lv_label_create(square_bk);
   lv_label_set_text(label_bk, "BLE");

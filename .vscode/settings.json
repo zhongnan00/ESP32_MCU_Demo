@@ -119,7 +119,11 @@
         "set": "c",
         "lv_timer.h": "c",
         "lv_snapshot.h": "c",
-        "semaphore": "c"
+        "semaphore": "c",
+        "adc_cali_scheme.h": "c",
+        "button.h": "c",
+        "ets_sys.h": "c",
+        "rmt_encoder.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
