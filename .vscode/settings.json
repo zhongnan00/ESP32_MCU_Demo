@@ -123,7 +123,16 @@
         "adc_cali_scheme.h": "c",
         "button.h": "c",
         "ets_sys.h": "c",
-        "rmt_encoder.h": "c"
+        "rmt_encoder.h": "c",
+        "esp_gatts_api.h": "c",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "bluetooth_app.h": "c",
+        "esp_gatt_defs.h": "c",
+        "esp_gatt_common_api.h": "c",
+        "esp_bt_main.h": "c",
+        "esp_bt_defs.h": "c",
+        "esp_gap_ble_api.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
