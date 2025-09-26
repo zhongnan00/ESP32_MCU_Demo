@@ -11,16 +11,18 @@
 #include "ST7789.h"
 #include "SD_SPI.h"
 #include "RGB.h"
-// #include "Wireless.h"
+
 #include "LVGL_Example.h"
 #include "lib_soft_i2c.h"
 #include "sensor_eeprom.h"
 #include "sensor_elmos.h"
 #include "sensor_ntc.h"
+#include "bluetooth_app.h"
 
-// #include "mqtt_app.h"
+
 #include "simple_wifi_sta.h"
 #include "lib_ring_buffer.h"
+
 
 const char* EXAMPLE_TAG = "ESP32C6";
 ring_buffer_t icp_ring_buffer;
@@ -62,6 +64,8 @@ void app_main(void)
     int counter = 0;
     ring_buffer_init(&icp_ring_buffer);
     lv_timer_handler();
+
+    bluetooth_app_init();
 
     while (1) {
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
@@ -105,6 +109,7 @@ void app_main(void)
             pressure /= 100;
             lvgl_update_icp_block(pressure, false);
             lvgl_update_wifi_mqtt();
+
             counter = 0;
         }
 
