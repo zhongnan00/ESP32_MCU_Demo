@@ -95,8 +95,20 @@ esp_err_t ntc_sync_start(void)
 float ntc_read_temp(void)
 {
 
-    uint8_t data[3];
+    uint8_t data[3] = {0};
     ntc_read_bytes(0x10, data, 3);
+    
+    if(data[0] == 0xFF && data[1] == 0xFF && data[2] == 0xFF)
+    {
+        // ESP_LOGE(TAG, "Error ntc read fail!");
+        return 0.0;
+    }
+
+    if(data[0] == 0x00 && data[1] == 0x00 && data[2] == 0x00)
+    {
+        // ESP_LOGE(TAG, "Error ntc read fail!");
+        return 0.0;
+    }
 
     uint32_t value = (data[0]*65536 + data[1]*256 + data[2]);
     float ohm = 33.2*value/8388607*1000;

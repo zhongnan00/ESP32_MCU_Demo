@@ -18,8 +18,8 @@
 #include "LVGL_Example.h"
 
 //需要把这两个修改成你家WIFI，测试是否连接成功
-#define DEFAULT_WIFI_SSID           "uFi-D195"
-#define DEFAULT_WIFI_PASSWORD       "1234567890"
+#define DEFAULT_WIFI_SSID           "TP-LINK_2.4G_F38E"
+#define DEFAULT_WIFI_PASSWORD       "medtronic"
 
 static const char *TAG = "wifi";
 static EventGroupHandle_t   s_wifi_ev = NULL;

@@ -132,7 +132,8 @@
         "esp_gatt_common_api.h": "c",
         "esp_bt_main.h": "c",
         "esp_bt_defs.h": "c",
-        "esp_gap_ble_api.h": "c"
+        "esp_gap_ble_api.h": "c",
+        "mutex": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
