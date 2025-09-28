@@ -75,6 +75,24 @@ void heart_rate_task(void *param) {
 }
 
 
+static void sensor_send_task(void *param) {
+    /* Task entry log */
+    ESP_LOGI(TAG, "sensor send task has been started!");
+
+    /* Loop forever */
+    while (1) {
+        /* Send sensor notify every 1 second */
+        send_sensor_notify();
+        // ESP_LOGI(TAG, "sensor data notified");
+
+        /* Sleep */
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+
+    /* Clean up at exit */
+    vTaskDelete(NULL);
+}
+
 
 void bluetooth_app_init(void) 
 {
@@ -114,5 +132,6 @@ void bluetooth_app_init(void)
     /* Start NimBLE host task thread and return */
     xTaskCreate(nimble_host_task, "NimBLE Host", 4*1024, NULL, 5, NULL);
     xTaskCreate(heart_rate_task, "Heart Rate", 4*1024, NULL, 5, NULL);
+    xTaskCreate(sensor_send_task, "Sensor Send", 4*1024, NULL, 5, NULL);
     return;
 }
