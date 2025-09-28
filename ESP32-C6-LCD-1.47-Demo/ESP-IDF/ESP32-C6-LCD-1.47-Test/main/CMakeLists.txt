@@ -13,10 +13,10 @@ idf_component_register(
                               "sensors/sensor_elmos.c" 
                               "sensors/sensor_ntc.c"
                               "common/lib_ring_buffer.c"
-                              "Bluetooth/gap.c" 
-                              "Bluetooth/gatt_svc.c" 
-                              "Bluetooth/heart_rate_mock.c"
                               "Bluetooth/bluetooth_app.c"
+                              "Bluetooth/gap.c"
+                              "Bluetooth/gatt_svc.c"
+                              "Bluetooth/heart_rate_mock.c"
                               
                               
 

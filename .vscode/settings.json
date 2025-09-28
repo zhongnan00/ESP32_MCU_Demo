@@ -159,7 +159,10 @@
         "concepts": "c",
         "atomic": "c",
         "esp_intr_alloc.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "esp_nimble_hci.h": "c",
+        "esp_random.h": "c",
+        "bluedroid_gatt_server.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

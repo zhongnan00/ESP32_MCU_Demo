@@ -1,0 +1,22 @@
+I (180528) NimBLE_GATT_Server: heart rate updated to 63
+I (181528) NimBLE_GATT_Server: heart rate updated to 75
+I (181838) NimBLE_GATT_Server: connection established; status=0
+I (181838) NimBLE_GATT_Server: connection handle: 0
+I (181838) NimBLE_GATT_Server: device id address: type=0, value=3A:6F:B3:23:B3:E4
+I (181838) NimBLE_GATT_Server: peer id address: type=0, value=23:DA:6A:56:EA:04
+I (181848) NimBLE_GATT_Server: conn_itvl=30, conn_latency=3, supervision_timeout=600, encrypted=0, authenticated=0, bonded=0
+
+I (181858) NimBLE: GAP procedure initiated: 
+I (181868) NimBLE: connection parameter update; conn_handle=0 itvl_min=30 itvl_max=30 latency=3 supervision_timeout=600 min_ce_len=0 max_ce_len=0
+I (181878) NimBLE: 
+
+I (182528) NimBLE_GATT_Server: heart rate updated to 74
+I (183228) NimBLE_GATT_Server: disconnected from peer; reason=517
+I (183228) NimBLE: GAP procedure initiated: advertise; 
+I (183228) NimBLE: disc_mode=2
+I (183228) NimBLE:  adv_channel_map=0 own_addr_type=0 adv_filter_policy=0 adv_itvl_min=800 adv_itvl_max=816
+I (183238) NimBLE: 
+
+I (183248) NimBLE_GATT_Server: advertising started!
+I (183528) NimBLE_GATT_Server: heart rate updated to 65
+I (184528) NimBLE_GATT_Server: heart rate updated to 67

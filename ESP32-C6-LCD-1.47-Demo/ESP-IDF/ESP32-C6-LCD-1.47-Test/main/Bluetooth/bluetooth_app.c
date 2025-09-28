@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2025
  * 
  */
-
+#include "nimble/nimble_port.h"
 #include "bluetooth_app.h"
 
 /* Library function declarations */
@@ -85,20 +85,6 @@ void bluetooth_app_init(void)
     /* LED initialization */
     // led_init();
 
-    /*
-     * NVS flash initialization
-     * Dependency of BLE stack to store configurations
-     */
-    // ret = nvs_flash_init();
-    // if (ret == ESP_ERR_NVS_NO_FREE_PAGES ||
-    //     ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-    //     ESP_ERROR_CHECK(nvs_flash_erase());
-    //     ret = nvs_flash_init();
-    // }
-    // if (ret != ESP_OK) {
-    //     ESP_LOGE(TAG, "failed to initialize nvs flash, error code: %d ", ret);
-    //     return;
-    // }
 
     /* NimBLE stack initialization */
     ret = nimble_port_init();

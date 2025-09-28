@@ -45,7 +45,7 @@ static const struct ble_gatt_svc_def gatt_svr_svcs[] = {
              {/* Heart rate characteristic */
               .uuid = &heart_rate_chr_uuid.u,
               .access_cb = heart_rate_chr_access,
-              .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_INDICATE,
+              .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_INDICATE |BLE_GATT_CHR_F_NOTIFY,
               .val_handle = &heart_rate_chr_val_handle},
              {
                  0, /* No more characteristics in this service. */
@@ -168,10 +168,26 @@ error:
 /* Public functions */
 void send_heart_rate_indication(void) {
     if (heart_rate_ind_status && heart_rate_chr_conn_handle_inited) {
-        ble_gatts_indicate(heart_rate_chr_conn_handle,
-                           heart_rate_chr_val_handle);
-        ESP_LOGI(TAG, "heart rate indication sent!");
+        // ble_gatts_indicate(heart_rate_chr_conn_handle,
+        //                    heart_rate_chr_val_handle);
+        ESP_LOGI(TAG, "heart rate indication sent!,conn_handle=%d,val_handle=%d",
+                 heart_rate_chr_conn_handle, heart_rate_chr_val_handle);
+
+
+        struct os_mbuf *om = ble_hs_mbuf_from_flat(NULL, 0);
+        char data[16]="HeartBeat";
+        om = ble_hs_mbuf_from_flat(data, sizeof(data));
+        int rc = ble_gatts_indicate_custom(heart_rate_chr_conn_handle,
+                                           heart_rate_chr_val_handle, om);
     }
+    else{
+        ESP_LOGI(TAG, "heart rate indication error,heart_rate_ind_status=%d,heart_rate_chr_conn_handle_inited=%d",
+            heart_rate_ind_status, heart_rate_chr_conn_handle_inited);
+    }
+}
+
+void send_heart_rate_notify(void) {
+    ble_gatts_chr_updated(heart_rate_chr_val_handle);
 }
 
 /*
