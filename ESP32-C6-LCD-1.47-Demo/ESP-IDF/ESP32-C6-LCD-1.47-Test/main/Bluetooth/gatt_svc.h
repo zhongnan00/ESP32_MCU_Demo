@@ -29,5 +29,7 @@ void send_heart_rate_notify(void);
 void send_sensor_notify(void);
 
 
+void send_sensor_notify_osmbuf(struct os_mbuf *om);
+
 
 #endif // GATT_SVR_H

@@ -9,6 +9,8 @@
 #include "heart_rate.h"
 // #include "led.h"
 
+static const char *TAG = "NimBLE_GATT_Server";
+
 /* Private function declarations */
 static int heart_rate_chr_access(uint16_t conn_handle, uint16_t attr_handle,
                                  struct ble_gatt_access_ctxt *ctxt, void *arg);
@@ -105,8 +107,29 @@ void send_sensor_notify(void)
         if (rc != 0) {
             ESP_LOGE(TAG, "Error: Failed to send sensor notify; rc=%d", rc);
         } else {
-            ESP_LOGI(TAG, "sensor notify sent!,conn_handle=%d,val_handle=%d",
+            // ESP_LOGI(TAG, "sensor notify sent!,conn_handle=%d,val_handle=%d",
+            //          sensor_chr_conn_handle, sensor_chr_val_handle);
+            
+        }
+    }
+}
+
+
+void send_sensor_notify_osmbuf(struct os_mbuf *om)
+{
+    if (sensor_ind_status && sensor_chr_conn_inited) {
+        if (!om) {
+            ESP_LOGE(TAG, "Error: Failed to allocate mbuf for sensor notify");
+            return;
+        }
+        int rc = ble_gatts_indicate_custom(sensor_chr_conn_handle,
+                                   sensor_chr_val_handle, om);
+        if (rc != 0) {
+            ESP_LOGE(TAG, "Error: Failed to send sensor notify; rc=%d", rc);
+        } else {
+            ESP_LOGI(TAG, "sensor notify buf sent!,conn_handle=%d,val_handle=%d",
                      sensor_chr_conn_handle, sensor_chr_val_handle);
+            
         }
     }
 }
@@ -261,8 +284,8 @@ void send_heart_rate_indication(void) {
     if (heart_rate_ind_status && heart_rate_chr_conn_handle_inited) {
         // ble_gatts_indicate(heart_rate_chr_conn_handle,
         //                    heart_rate_chr_val_handle);
-        ESP_LOGI(TAG, "heart rate indication sent!,conn_handle=%d,val_handle=%d",
-                 heart_rate_chr_conn_handle, heart_rate_chr_val_handle);
+        // ESP_LOGI(TAG, "heart rate indication sent!,conn_handle=%d,val_handle=%d",
+        //          heart_rate_chr_conn_handle, heart_rate_chr_val_handle);
 
 
         struct os_mbuf *om = ble_hs_mbuf_from_flat(NULL, 0);
@@ -272,8 +295,8 @@ void send_heart_rate_indication(void) {
                                            heart_rate_chr_val_handle, om);
     }
     else{
-        ESP_LOGI(TAG, "heart rate indication error,heart_rate_ind_status=%d,heart_rate_chr_conn_handle_inited=%d",
-            heart_rate_ind_status, heart_rate_chr_conn_handle_inited);
+        // ESP_LOGI(TAG, "heart rate indication error,heart_rate_ind_status=%d,heart_rate_chr_conn_handle_inited=%d",
+        //     heart_rate_ind_status, heart_rate_chr_conn_handle_inited);
     }
 }
 
@@ -350,7 +373,7 @@ void gatt_svr_subscribe_cb(struct ble_gap_event *event) {
         /* Update sensor subscription status */
         sensor_chr_conn_handle = event->subscribe.conn_handle;
         sensor_chr_conn_inited = true;
-        sensor_ind_status  = event->subscribe.cur_indicate;
+        sensor_ind_status  = event->subscribe.cur_notify | event->subscribe.cur_indicate;
     }
 }
 

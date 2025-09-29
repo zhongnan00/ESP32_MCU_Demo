@@ -11,6 +11,8 @@
 #include "nimble/nimble_port.h"
 #include "bluetooth_app.h"
 
+static const char *TAG = "BLUETOOTH_APP";
+
 /* Library function declarations */
 void ble_store_config_init(void);
 
@@ -132,6 +134,6 @@ void bluetooth_app_init(void)
     /* Start NimBLE host task thread and return */
     xTaskCreate(nimble_host_task, "NimBLE Host", 4*1024, NULL, 5, NULL);
     xTaskCreate(heart_rate_task, "Heart Rate", 4*1024, NULL, 5, NULL);
-    xTaskCreate(sensor_send_task, "Sensor Send", 4*1024, NULL, 5, NULL);
+    // xTaskCreate(sensor_send_task, "Sensor Send", 4*1024, NULL, 5, NULL);
     return;
 }

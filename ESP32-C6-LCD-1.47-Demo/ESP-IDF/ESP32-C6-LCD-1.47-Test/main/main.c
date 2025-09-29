@@ -19,10 +19,9 @@
 #include "sensor_ntc.h"
 #include "bluetooth_app.h"
 
-
-
 #include "simple_wifi_sta.h"
 #include "lib_ring_buffer.h"
+#include "sensor_comm.h"
 
 
 const char* EXAMPLE_TAG = "ESP32C6";
@@ -62,57 +61,21 @@ void app_main(void)
     ntc_config();
     ntc_sync_start();
     
-    int counter = 0;
-    ring_buffer_init(&icp_ring_buffer);
+    // int counter = 0;
+    // ring_buffer_init(&icp_ring_buffer);
     lv_timer_handler();
 
     bluetooth_app_init();
 
+    sensor_comm_init();
+
     while (1) {
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
-        ntc_sync_start();
+        // ntc_sync_start();
         vTaskDelay(pdMS_TO_TICKS(10));
         // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
         lv_timer_handler();
 
-        ++counter;
-        if(counter % 3 == 0){
-            float pressure = elmos_get_pressure();
-            
-            if(ring_buffer_is_full(&icp_ring_buffer))
-            {
-                ring_buffer_pop_only(&icp_ring_buffer);
-            }
-
-            ring_buffer_push(&icp_ring_buffer, (int)(pressure*100));
-
-            lvgl_update_icp_block(pressure, true);
-            // ESP_LOGI(EXAMPLE_TAG, "Pressure: %d", (int)(pressure*100));
-        }
-
-        if(counter % 22 == 0){
-            float temp = ntc_read_temp();
-            lvgl_update_temp_block(temp);
-            // ESP_LOGI(EXAMPLE_TAG, "Temperature: %0.1f", temp);
-
-            lvgl_update_probe_sn();
-        }
-        
-        if(counter % 100 == 0){
-
-            float pressure = 0;
-            for(int i=0; i<icp_ring_buffer.count; i++){
-                pressure += icp_ring_buffer.buffer[i];
-                // printf("%d ", icp_ring_buffer.buffer[i]);
-            }
-            // printf("\n");
-            pressure /= icp_ring_buffer.count;
-            pressure /= 100;
-            lvgl_update_icp_block(pressure, false);
-            lvgl_update_wifi_mqtt();
-
-            counter = 0;
-        }
 
     }
 }

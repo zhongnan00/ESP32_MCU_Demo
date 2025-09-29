@@ -12,6 +12,7 @@ idf_component_register(
                               "sensors/sensor_eeprom.c" 
                               "sensors/sensor_elmos.c" 
                               "sensors/sensor_ntc.c"
+                              "sensors/sensor_comm.c"
                               "common/lib_ring_buffer.c"
                               "Bluetooth/bluetooth_app.c"
                               "Bluetooth/gap.c"

@@ -6,6 +6,8 @@
 #include "mqtt_client.h"
 #include "esp_log.h"
 
+#define ENABLE_MQTT false  
+
 
 // #define MQTT_ADDRESS    "mqtt://broker-cn.emqx.io"     //MQTT连接地址
 #define MQTT_ADDRESS    "mqtt://10.152.65.128:1883"     //MQTT连接地址
@@ -126,6 +128,9 @@ static void aliot_mqtt_event_handler(void* event_handler_arg,
 */
 void mqtt_start(void)
 {
+    if(!ENABLE_MQTT)
+        return;
+
     esp_log_level_set("MQTT_CLIENT",ESP_LOG_ERROR);
     esp_mqtt_client_config_t mqtt_cfg = {0};
     mqtt_cfg.broker.address.uri = MQTT_ADDRESS;
@@ -151,6 +156,9 @@ void mqtt_start(void)
 void mqtt_publish_message(const char* msg)
 {
     //"{\"name\":\"\"hello,\"msg\":\"hello mqtt\"}"
+
+    if(!ENABLE_MQTT)
+        return;
 
     if(s_is_mqtt_connected){
         esp_mqtt_client_publish(s_mqtt_client, MQTT_PUBLIC_TOPIC,msg, strlen(msg),1, 0);

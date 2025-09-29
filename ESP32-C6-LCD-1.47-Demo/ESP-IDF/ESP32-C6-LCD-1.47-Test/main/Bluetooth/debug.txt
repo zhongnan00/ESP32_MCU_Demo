@@ -20,3 +20,16 @@ I (183238) NimBLE:
 I (183248) NimBLE_GATT_Server: advertising started!
 I (183528) NimBLE_GATT_Server: heart rate updated to 65
 I (184528) NimBLE_GATT_Server: heart rate updated to 67
+
+
+
+
+
+I (58222482) BLUETOOTH_APP: heart rate updated to 76
+I (58222482) NimBLE_GAP: connection established; status=0
+I (58222482) NimBLE_GAP: connection handle: 0
+I (58222482) NimBLE_GAP: device id address: type=0, value=3A:6F:B3:23:B3:E4
+I (58222482) NimBLE_GAP: peer id address: type=0, value=23:DA:6A:56:EA:04
+I (58222492) NimBLE_GAP: conn_itvl=36, conn_latency=3, supervision_timeout=42, encrypted=0, authenticated=0, bonded=0
+
+E (58222502) NimBLE_GAP: failed to update connection parameters, error code: 6
