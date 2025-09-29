@@ -167,7 +167,9 @@
         "sensor_comm.h": "c",
         "lv_gpu_d2_ra6m3.h": "c",
         "lv_indev.h": "c",
-        "lv_gpu_nxp_pxp.h": "c"
+        "lv_gpu_nxp_pxp.h": "c",
+        "ostream": "cpp",
+        "fstream": "cpp"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

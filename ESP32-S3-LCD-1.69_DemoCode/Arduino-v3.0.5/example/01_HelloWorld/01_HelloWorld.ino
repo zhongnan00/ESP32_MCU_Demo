@@ -1,10 +1,10 @@
 #include <Arduino.h>
-#include "Arduino_GFX_Library.h"
+#include <Arduino_GFX_Library.h>
 #include "pin_config.h"
 #include <Wire.h>
 #include "HWCDC.h"
 
-HWCDC USBSerial;
+HWCDC USBSerial;/home/liuchao/github/ESP32_MCU_Demo/ESP32-S3-LCD-1.69_DemoCode/Arduino-v3.0.5/example/04_GFX_ESPWiFiAnalyzer/04_GFX_ESPWiFiAnalyzer.ino
 
 Arduino_DataBus *bus = new Arduino_ESP32SPI(LCD_DC, LCD_CS, LCD_SCK, LCD_MOSI);
 

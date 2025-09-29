@@ -5,3 +5,12 @@ examples/peripherals/i2c/i2c_eeprom/build/*
 examples/01_learn/os_test/build/*
 examples/01_learn/probe_kit_test/build/*
 ESP32-C6-LCD-1.47-Demo/ESP-IDF/ESP32-C6-LCD-1.47-Test/build/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/01_ESP_IDF_ST7789/build/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/01_ESP_IDF_ST7789/managed_components/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/02_ESP_IDF_ST7789_LVGL/build/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/02_ESP_IDF_ST7789_LVGL/managed_components/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/03_PCF85063/build/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/03_PCF85063/managed_components/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/04_QMI8658/build/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/04_QMI8658/managed_components/*
+ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/01_ESP_IDF_ST7789/build/*

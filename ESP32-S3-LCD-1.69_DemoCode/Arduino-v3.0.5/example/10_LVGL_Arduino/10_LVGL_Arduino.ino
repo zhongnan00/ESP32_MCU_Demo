@@ -2,7 +2,7 @@
 #include "Arduino_GFX_Library.h"
 #include "pin_config.h"
 #include "lv_conf.h"
-#include <demos/lv_demos.h>
+#include "demos/lv_demos.h"
 #include "HWCDC.h"
 #include "image.h"
 
