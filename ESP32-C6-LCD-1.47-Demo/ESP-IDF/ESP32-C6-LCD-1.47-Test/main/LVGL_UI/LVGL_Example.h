@@ -23,7 +23,9 @@ void lvgl_wifi_block(void);
 
 void lvgl_battery_block(void);
 
-void lvgl_bluetooth_block(void);
+void lvgl_bluetooth_Info_block(void);
+
+void lvgl_status_block(void);
 
 
 void lvgl_update_head_block(char* id);

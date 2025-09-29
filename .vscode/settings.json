@@ -164,7 +164,10 @@
         "esp_random.h": "c",
         "bluedroid_gatt_server.h": "c",
         "modlog.h": "c",
-        "sensor_comm.h": "c"
+        "sensor_comm.h": "c",
+        "lv_gpu_d2_ra6m3.h": "c",
+        "lv_indev.h": "c",
+        "lv_gpu_nxp_pxp.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

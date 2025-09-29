@@ -45,15 +45,16 @@ void app_main(void)
     lvgl_icp_block();
     lvgl_temp_block();
     lvgl_wifi_block();
+    lvgl_bluetooth_Info_block();
     lvgl_battery_block();
-    lvgl_bluetooth_block();
+    lvgl_status_block();
     lv_timer_handler();
 
     simple_wifi_sta_init();
     lv_timer_handler();
 
     probe_i2c_bus_init();
-    char probe_sn[10]={0x0};
+    char probe_sn[10]="YYT00000";
     eeprom_get_sn(probe_sn);
     ESP_LOGI(EXAMPLE_TAG, "SN: %s", probe_sn);
     lvgl_update_head_block(probe_sn);

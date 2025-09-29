@@ -54,9 +54,11 @@ lv_obj_t *label_head ;
 lv_obj_t *label_icp;
 lv_obj_t *label_temp;
 lv_obj_t *label_wifi;
+lv_obj_t *label_bluetooth;
+lv_obj_t *label_battery;
 
 
-char probe_sn_str[16]={0x0};
+char probe_sn_str[16]="YYT00000";
 //*********************************** */
 
 
@@ -382,7 +384,7 @@ void lvgl_icp_block(void)
   lv_style_set_text_font(&label_style, &lv_font_montserrat_48);
   
   lv_obj_t *square = lv_obj_create(lv_scr_act());
-  lv_obj_set_size(square, 172, 100);
+  lv_obj_set_size(square, 172, 90);
   lv_obj_add_style(square, &square_style, 0);
   lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 40);
 
@@ -399,7 +401,7 @@ void lvgl_icp_block(void)
   lv_obj_t *label_mmhg = lv_label_create(square);
   lv_label_set_text(label_mmhg, "ICP(mmHg) [-40/150]");
   lv_obj_add_style(label_mmhg, &label_style_mmhg, 0);
-  lv_obj_align(label_mmhg, LV_ALIGN_TOP_RIGHT, 0, 0);
+  lv_obj_align(label_mmhg, LV_ALIGN_TOP_RIGHT, 0, -10);
 
 }
 
@@ -435,9 +437,9 @@ void lvgl_temp_block(void)
   lv_style_set_text_font(&label_style, &lv_font_montserrat_48);
 
   lv_obj_t *square = lv_obj_create(lv_scr_act());
-  lv_obj_set_size(square, 172, 100);
+  lv_obj_set_size(square, 172, 90);
   lv_obj_add_style(square, &square_style, 0);
-  lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 141);
+  lv_obj_align(square, LV_ALIGN_TOP_LEFT, 0, 131);
 
   label_temp = lv_label_create(square);
   lv_label_set_text(label_temp, "--.-");
@@ -450,9 +452,9 @@ void lvgl_temp_block(void)
   lv_style_set_text_font(&label_style_mmhg, &lv_font_montserrat_14);
 
   lv_obj_t *label_mmhg = lv_label_create(square);
-  lv_label_set_text(label_mmhg, "Temp(°C) [20/45]");
+  lv_label_set_text(label_mmhg, "Temp(°C) [ 20/45 ]");
   lv_obj_add_style(label_mmhg, &label_style_mmhg, 0);
-  lv_obj_align(label_mmhg, LV_ALIGN_TOP_RIGHT, 0, 0);
+  lv_obj_align(label_mmhg, LV_ALIGN_TOP_RIGHT, 0, -10);
 
 }
 
@@ -499,16 +501,49 @@ void lvgl_wifi_block(void)
   lv_style_set_text_font(&label_style, &lv_font_montserrat_16);
 
   lv_obj_t *square_wifi = lv_obj_create(lv_scr_act());
-  lv_obj_set_size(square_wifi, 172, 40);
+  lv_obj_set_size(square_wifi, 172, 30);
   lv_obj_add_style(square_wifi, &square_style, 0);
-  lv_obj_align(square_wifi, LV_ALIGN_TOP_LEFT, 0, 242);
+  lv_obj_align(square_wifi, LV_ALIGN_TOP_LEFT, 0, 222);
 
   label_wifi = lv_label_create(square_wifi);
   lv_label_set_text(label_wifi, "--.--.--.-- (---)");
   lv_obj_add_style(label_wifi, &label_style, 0);
-  lv_obj_align(label_wifi, LV_ALIGN_BOTTOM_MID, 0, 0);
+  lv_obj_align(label_wifi, LV_ALIGN_CENTER, 0, 0);
 
 }
+
+void lvgl_bluetooth_Info_block(void)
+{
+
+  disp_size = DISP_SMALL;                            
+  font_large = LV_FONT_DEFAULT;                             
+  font_normal = LV_FONT_DEFAULT;  
+
+  static lv_style_t square_style;
+  lv_style_init(&square_style);
+  lv_style_set_bg_color(&square_style, lv_color_hex(0x0000CC)); //blue,0x007AFF
+  lv_style_set_border_width(&square_style, 0);
+  lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
+  lv_style_set_radius(&square_style, 0);
+  
+  static lv_style_t label_style;
+  lv_style_init(&label_style);
+  lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
+  lv_style_set_text_font(&label_style, &lv_font_montserrat_16);
+
+  lv_obj_t *square_obj = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square_obj, 172, 30);
+  lv_obj_add_style(square_obj, &square_style, 0);
+  lv_obj_align(square_obj, LV_ALIGN_TOP_LEFT, 0, 253);
+
+  label_bluetooth= lv_label_create(square_obj);
+  lv_label_set_text(label_bluetooth, "e4:b3:23:b3:6f:3a");
+  lv_obj_add_style(label_bluetooth, &label_style, 0);
+  lv_obj_align(label_bluetooth, LV_ALIGN_CENTER, 0, 0);
+
+}
+
+
 
 void lvgl_battery_block(void)
 {
@@ -529,20 +564,20 @@ void lvgl_battery_block(void)
   lv_style_set_text_color(&label_style, lv_color_hex(0xFFFFFF)); //0x000000
   lv_style_set_text_font(&label_style, &lv_font_montserrat_16);
 
-  lv_obj_t *square_battery = lv_obj_create(lv_scr_act());
-  lv_obj_set_size(square_battery, 70, 35);
-  lv_obj_add_style(square_battery, &square_style, 0);
-  lv_obj_align(square_battery, LV_ALIGN_TOP_LEFT, 0, 283);
-  lv_obj_clear_flag(square_battery, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_t *square_obj = lv_obj_create(lv_scr_act());
+  lv_obj_set_size(square_obj, 70, 35);
+  lv_obj_add_style(square_obj, &square_style, 0);
+  lv_obj_align(square_obj, LV_ALIGN_TOP_LEFT, 0, 284);
+  lv_obj_clear_flag(square_obj, LV_OBJ_FLAG_SCROLLABLE);
 
-  lv_obj_t *label_battery = lv_label_create(square_battery);
-  lv_label_set_text(label_battery, "90%");
-  lv_obj_add_style(label_battery, &label_style, 0);
-  lv_obj_align(label_battery, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_t *label_obj = lv_label_create(square_obj);
+  lv_label_set_text(label_obj, "90%");
+  lv_obj_add_style(label_obj, &label_style, 0);
+  lv_obj_align(label_obj, LV_ALIGN_CENTER, 0, 0);
 
 }
 
-void lvgl_bluetooth_block(void)
+void lvgl_status_block(void)
 {
 
   disp_size = DISP_SMALL;                            
@@ -551,7 +586,7 @@ void lvgl_bluetooth_block(void)
 
   static lv_style_t square_style;
   lv_style_init(&square_style);
-  lv_style_set_bg_color(&square_style, lv_color_hex(0x0000CC)); //blue,0x007AFF
+  lv_style_set_bg_color(&square_style, lv_color_hex(0x00A86B)); //blue,0x007AFF
   lv_style_set_border_width(&square_style, 0);
   lv_style_set_bg_opa(&square_style, LV_OPA_COVER);
   lv_style_set_radius(&square_style, 0);
@@ -564,11 +599,11 @@ void lvgl_bluetooth_block(void)
   lv_obj_t *square_bk = lv_obj_create(lv_scr_act());
   lv_obj_set_size(square_bk, 70, 35);
   lv_obj_add_style(square_bk, &square_style, 0);
-  lv_obj_align(square_bk, LV_ALIGN_TOP_LEFT, 71, 283);
+  lv_obj_align(square_bk, LV_ALIGN_TOP_LEFT, 71, 284);
   lv_obj_clear_flag(square_bk, LV_OBJ_FLAG_SCROLLABLE);
 
   lv_obj_t *label_bk = lv_label_create(square_bk);
-  lv_label_set_text(label_bk, "BLE");
+  lv_label_set_text(label_bk, "[OK]");
   lv_obj_add_style(label_bk, &label_style, 0);
   lv_obj_align(label_bk, LV_ALIGN_CENTER, 0, 0);
 
