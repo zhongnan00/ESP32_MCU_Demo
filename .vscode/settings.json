@@ -169,7 +169,9 @@
         "lv_indev.h": "c",
         "lv_gpu_nxp_pxp.h": "c",
         "ostream": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "esp_chip_info.h": "c",
+        "esp_flash.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
