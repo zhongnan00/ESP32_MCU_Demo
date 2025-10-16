@@ -49,9 +49,9 @@ void oled_task_run(void* arg)
 
         u8g2.setFont(u8g2_font_6x10_tr);
         u8g2.drawStr(0, 10, "SN:24T00014");
-        u8g2.drawStr(0, 20, "P: 10   ");
-        u8g2.drawStr(0, 30, "T: 36.5 ");
-        u8g2.drawStr(0, 40, "[ 80 ]- ");
+        u8g2.drawStr(0, 20, "P : 10 mmHg");
+        u8g2.drawStr(0, 30, "T : 36.5 oC");
+        u8g2.drawStr(0, 40, "[ 80%][BLE]");
         u8g2.sendBuffer();
     } while ( u8g2.nextPage() );
 
