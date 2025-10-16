@@ -21,5 +21,9 @@ void led_on();
 
 void led_off();
 
+void led_pwm();
+
+void led_task_run(void *args);
+
 
 #endif /* LED_H_ */
