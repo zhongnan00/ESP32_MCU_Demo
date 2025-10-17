@@ -50,7 +50,7 @@ void app_main(void)
     lvgl_status_block();
     lv_timer_handler();
 
-    simple_wifi_sta_init();
+    // simple_wifi_sta_init();
     lv_timer_handler();
 
     probe_i2c_bus_init();

@@ -102,17 +102,17 @@ static void sensor_comm_send_task(void *param) {
             counter = 0;
         }
 
-        // get_sensor_pressure_data(&pressure_data);
-        // if(counter %10 == 0)
-        // {
-        //     float pressure = 0;
-        //     for(int i=0; i<icp_ring_buffer.count; i++){
-        //         pressure += icp_ring_buffer.buffer[i];
-        //     }
-        //     pressure /= icp_ring_buffer.count;
-        //     pressure /= 100;
-        //     lvgl_update_icp_block(pressure, false);   
-        // }
+        get_sensor_pressure_data(&pressure_data);
+        if(counter %10 == 0)
+        {
+            float pressure = 0;
+            for(int i=0; i<icp_ring_buffer.count; i++){
+                pressure += icp_ring_buffer.buffer[i];
+            }
+            pressure /= icp_ring_buffer.count;
+            pressure /= 100;
+            lvgl_update_icp_block(pressure, false);   
+        }
 
         /* Sleep */
         vTaskDelay(pdMS_TO_TICKS(30));
