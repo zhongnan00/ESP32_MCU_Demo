@@ -8,7 +8,7 @@
 #include <esp_log.h>
 #include <freertos/queue.h>
 #include <freertos/event_groups.h>
-#include "esp32/rom/ets_sys.h"
+// #include "esp32/rom/ets_sys.h"
 #include "driver/ledc.h"
 
 //定义LED的GPIO口

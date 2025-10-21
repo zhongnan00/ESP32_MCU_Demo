@@ -15,3 +15,6 @@ ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/04_QMI8658/build/*
 ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/04_QMI8658/managed_components/*
 ESP32-S3-LCD-1.69_DemoCode/ESP-IDF-v5.3.1/01_ESP_IDF_ST7789/build/*
 ESP32C3/ESP-IDF/hello_world/build/*
+ESP32-WROOM-E32/helloworld/build/*
+ESP32-WROOM-E32/ledc/build/*
+ESP32-WROOM-E32/rtos/build/*

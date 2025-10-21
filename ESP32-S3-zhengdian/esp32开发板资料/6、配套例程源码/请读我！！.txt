@@ -1,0 +1,12 @@
+开发套件的所有源码均在gitee上进行托管，地址如下：
+【基础例程源码】https://gitee.com/vi-iot/esp32-board.git
+【阿里云IOT源码】https://gitee.com/vi-iot/esp32-aliot
+【mjpeg播放器源码】https://gitee.com/vi-iot/mjpeg
+
+建议使用git工具进行下载，下载命令如下：
+git clone --recursive https://gitee.com/vi-iot/esp32-board.git
+
+使用git进行代码管理有如下好处：
+1、源码有更新或者bug修复后，使用git pull origin master命令即可拉取最新源码
+2、可以看到源码的历史修改版本
+3、有助于代码的统一管理

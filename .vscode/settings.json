@@ -196,7 +196,8 @@
         "stop_token": "cpp",
         "streambuf": "cpp",
         "cfenv": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "rmt_tx.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
