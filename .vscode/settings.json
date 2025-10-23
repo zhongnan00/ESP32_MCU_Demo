@@ -197,7 +197,11 @@
         "streambuf": "cpp",
         "cfenv": "cpp",
         "cinttypes": "cpp",
-        "rmt_tx.h": "c"
+        "rmt_tx.h": "c",
+        "esp_io_expander_tca9554.h": "c",
+        "sys.h": "c",
+        "adc_bsp.h": "c",
+        "i2c_bsp.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
