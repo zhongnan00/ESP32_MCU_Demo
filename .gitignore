@@ -19,3 +19,4 @@ ESP32-WROOM-E32/helloworld/build/*
 ESP32-WROOM-E32/ledc/build/*
 ESP32-WROOM-E32/rtos/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/test-1/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/00_basic/build/*

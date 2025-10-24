@@ -48,13 +48,13 @@ void app_main(void)
     esp_flash_get_size(NULL, &flash_size);                          /* 获取FLASH大小 */
 
     esp_chip_info(&chip_info);
-    printf("内核：cup数量%d\n",chip_info.cores);                     /* 获取CPU内核数并显示 */
+    printf("kernal cpu num: %d\n",chip_info.cores);                     /* 获取CPU内核数并显示 */
     printf("FLASH size:%ld MB flash\n",flash_size / (1024 * 1024)); /* 获取FLASH大小并显示 */
     printf("PSRAM size: %d bytes\n", esp_psram_get_size());         /* 获取PARAM大小并显示 */
 
     while(1)
     {
         printf("Hello-ESP32\r\n");
-        vTaskDelay(1000);
+        vTaskDelay(1000);   //1000ms
     }
 }
