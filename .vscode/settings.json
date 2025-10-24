@@ -203,7 +203,11 @@
         "adc_bsp.h": "c",
         "i2c_bsp.h": "c",
         "esp_psram.h": "c",
-        "bootloader_init.h": "c"
+        "bootloader_init.h": "c",
+        "esp_cache_esp32_private.h": "c",
+        "cache.h": "c",
+        "kconfig": "cpp",
+        "config.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

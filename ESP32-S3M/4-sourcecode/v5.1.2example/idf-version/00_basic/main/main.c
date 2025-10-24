@@ -30,7 +30,25 @@
  * @brief       程序入口
  * @param       无
  * @retval      无
+ * 
  */
+
+esp_err_t nvs_init()
+{
+    esp_err_t ret;
+    ret = nvs_flash_init();
+    if(ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
+    {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+
+    return ret;
+}
+
+
+
+
 void app_main(void)
 {
     esp_err_t ret;
@@ -48,9 +66,11 @@ void app_main(void)
     esp_flash_get_size(NULL, &flash_size);                          /* 获取FLASH大小 */
 
     esp_chip_info(&chip_info);
-    printf("kernal cpu num: %d\n",chip_info.cores);                     /* 获取CPU内核数并显示 */
-    printf("FLASH size:%ld MB flash\n",flash_size / (1024 * 1024)); /* 获取FLASH大小并显示 */
-    printf("PSRAM size: %d bytes\n", esp_psram_get_size());         /* 获取PARAM大小并显示 */
+    printf("kernal cpu num: %u\n",chip_info.cores); 
+    printf("kernal feature: %lu \n",chip_info.features);
+    printf("kernal %u \n", chip_info.revision);                    /* 获取CPU内核数并显示 */
+    printf("FLASH size:%lu MB \n",flash_size / (1024 * 1024)); /* 获取FLASH大小并显示 */
+    printf("PSRAM size: %u KB\n", esp_psram_get_size()/1024);         /* 获取PARAM大小并显示 */
 
     while(1)
     {

@@ -38,3 +38,17 @@
  2041  history
 
 ```
+
+
+## system configuration
+```shell
+
+1. Build type: default(binary application +2nd stage bootloader)
+2. Serial flash config/ Flash SPI mode(QID), mode(STR mode), speed(80MHz),Flash size=16MB
+3. Patition Table/ Custom partition table CSV, name(user define), 
+4. SPI RAM config / Mode(Qctal mode PSRAM), Auto-detect, 80MHz speed
+5. Component config/ CPU frequency(240MHz)
+6. FreeRTOS/ configTICK_RATE_HZ(1000)
+7. 
+
+```

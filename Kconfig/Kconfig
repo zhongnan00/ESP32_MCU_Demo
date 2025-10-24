@@ -1,0 +1,22 @@
+menu "My Project Configuration"
+
+config ENABLE_FEATURE
+    bool "Enable Feature"
+    default y
+    help
+      Enables the special feature.
+
+config MAX_VALUE
+    int "Maximum Value"
+    default 100
+    range 0 1000
+    help
+      Maximum value used in program.
+
+config NAME
+    string "User Name"
+    default "Alice"
+    help
+      Your name for the program.
+
+endmenu
