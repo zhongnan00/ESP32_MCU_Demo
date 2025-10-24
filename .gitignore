@@ -18,3 +18,4 @@ ESP32C3/ESP-IDF/hello_world/build/*
 ESP32-WROOM-E32/helloworld/build/*
 ESP32-WROOM-E32/ledc/build/*
 ESP32-WROOM-E32/rtos/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/test-1/build/*

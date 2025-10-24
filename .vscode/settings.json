@@ -201,7 +201,9 @@
         "esp_io_expander_tca9554.h": "c",
         "sys.h": "c",
         "adc_bsp.h": "c",
-        "i2c_bsp.h": "c"
+        "i2c_bsp.h": "c",
+        "esp_psram.h": "c",
+        "bootloader_init.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
