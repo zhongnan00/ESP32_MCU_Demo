@@ -213,7 +213,8 @@
         "freertosconfig.h": "c",
         "i2s_std.h": "c",
         "time.h": "c",
-        "queue.h": "c"
+        "queue.h": "c",
+        "esp_gap_bt_api.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
