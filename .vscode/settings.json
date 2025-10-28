@@ -207,7 +207,13 @@
         "esp_cache_esp32_private.h": "c",
         "cache.h": "c",
         "kconfig": "cpp",
-        "config.h": "c"
+        "config.h": "c",
+        "esp_hid_gap.h": "c",
+        "esp_l2cap_bt_api.h": "c",
+        "freertosconfig.h": "c",
+        "i2s_std.h": "c",
+        "time.h": "c",
+        "queue.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
