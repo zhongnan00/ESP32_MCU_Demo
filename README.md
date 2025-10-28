@@ -97,3 +97,14 @@ SDA: GPIO 3 ,purple
 SCL: GPIO 2, blue
 
 ```
+
+
+
+## add dependency
+```shell
+cd project directory
+idf.py add-dependency "espressif/esp_jpeg^1.0.5~2"
+
+
+## then add the component directory and libs
+```
