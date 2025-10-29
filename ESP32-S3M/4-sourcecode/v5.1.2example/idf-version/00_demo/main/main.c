@@ -6,6 +6,7 @@
 #include "esp_chip_info.h"
 #include "esp_psram.h"
 #include "esp_flash.h"
+#include "led.h"
 
 
 /**
@@ -38,9 +39,11 @@ void app_main(void)
     printf("FLASH size:%lu MB \n",flash_size / (1024 * 1024)); /* 获取FLASH大小并显示 */
     printf("PSRAM size: %u KB\n", esp_psram_get_size()/1024);         /* 获取PARAM大小并显示 */
 
+    led_init();             /* 初始化LED */
     while(1)
     {
         printf("Hello-ESP32\r\n");
         vTaskDelay(1000);   //1000ms
+        LED_TOGGLE();
     }
 }

@@ -21,6 +21,7 @@ ESP32-WROOM-E32/rtos/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/test-1/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/00_basic/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/00_demo/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/01_led/build/*
 ESP32-WROOM-32E/hello/build/*
 ESP32-WROOM-32E/bt_l2cap_server/build/*
 Kconfig/build/*
