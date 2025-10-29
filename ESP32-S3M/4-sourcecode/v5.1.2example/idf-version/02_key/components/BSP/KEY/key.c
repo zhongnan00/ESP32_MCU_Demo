@@ -20,6 +20,8 @@
 
 #include "key.h"
 
+static uint8_t last_boot_key = 0;    /* 上次按键状态 */
+static uint8_t curr_boot_key = 0;    /* 当前按键状态 */
 
 /**
  * @brief       初始化按键
@@ -73,4 +75,17 @@ uint8_t key_scan(uint8_t mode)
     }
 
     return keyval;                  /* 返回键值 */
+}
+
+
+uint8_t get_boot_key_state(void)
+{
+    uint8_t key_state = 0;
+    vTaskDelay(10);             /* 去抖动 */
+    BOOT_STATE == 0 ? (key_state = 1) : (key_state = 0);
+
+    last_boot_key = curr_boot_key;
+    curr_boot_key  = key_state;
+
+    return curr_boot_key == last_boot_key ? curr_boot_key : 0;
 }

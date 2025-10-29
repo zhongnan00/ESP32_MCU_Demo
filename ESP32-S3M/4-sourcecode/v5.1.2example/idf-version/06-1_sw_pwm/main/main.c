@@ -42,6 +42,7 @@ void app_main(void)
     }
 
     pwm_init(10, 1000);     /* 初始化PWM */
+    vTaskDelay(100);   /* 延时100ms，等待PWM初始化完成 */
 
     while(1) 
     {

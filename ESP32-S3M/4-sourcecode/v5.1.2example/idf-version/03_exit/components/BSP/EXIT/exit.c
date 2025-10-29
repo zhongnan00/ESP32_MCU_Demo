@@ -59,4 +59,6 @@ void exit_init(void)
     
     /* 设置GPIO的中断回调函数 */
     gpio_isr_handler_add(BOOT_INT_GPIO_PIN, exit_gpio_isr_handler, (void*) BOOT_INT_GPIO_PIN);
+
+    gpio_intr_enable(BOOT_INT_GPIO_PIN);  /* 使能中断 */
 }

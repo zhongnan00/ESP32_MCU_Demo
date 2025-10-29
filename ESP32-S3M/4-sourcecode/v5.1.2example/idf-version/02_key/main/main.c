@@ -48,6 +48,7 @@ void app_main(void)
     while(1)
     {
         key = key_scan(0);      /* 获取键值 */
+        // key = get_boot_key_state(); /* 获取键值 */
 
         switch (key)
         {
