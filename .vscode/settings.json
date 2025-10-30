@@ -219,7 +219,20 @@
         "esp_assert.h": "c",
         "uart.h": "c",
         "esptim.h": "c",
-        "ledc.h": "c"
+        "ledc.h": "c",
+        "lcd.h": "c",
+        "temperature_sensor.h": "c",
+        "sensor.h": "c",
+        "rng.h": "c",
+        "wdev_reg.h": "c",
+        "unistd.h": "c",
+        "lcdfont.h": "c",
+        "esp_vfs.h": "c",
+        "convert.h": "c",
+        "spi.h": "c",
+        "exfuns.h": "c",
+        "piclib.h": "c",
+        "tud_flash.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

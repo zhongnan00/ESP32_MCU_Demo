@@ -34,6 +34,11 @@ ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/9_internal_Temperature/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/10_rng/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/11_sd/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/12_spiffs/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/13_chinese_display/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/14_picture/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/15_usb_uart/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/16_usb_flash_u/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/17_usb_sd_u/build/*
 ESP32-WROOM-32E/hello/build/*
 ESP32-WROOM-32E/bt_l2cap_server/build/*
 Kconfig/build/*

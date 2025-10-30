@@ -34,7 +34,7 @@
  */
 void app_main(void)
 {
-    int16_t temp;
+    // int16_t temp;
     esp_err_t ret;
 
     ret = nvs_flash_init();                                                     /* 初始化NVS */
@@ -54,7 +54,8 @@ void app_main(void)
 
     while(1)
     {
-        temp = sensor_get_temperature();                                        /* 得到温度值 */
+        // temp = sensor_get_temperature();                                        /* 得到温度值 */
+        float temp = sensor_get_temperature_float();
 
         if (temp < 0)
         {
@@ -66,8 +67,11 @@ void app_main(void)
             lcd_show_string(0 + 10 * 8, 0, 16, 16, 16, " ", BLUE);           /* 无符号 */
         }
 
-        lcd_show_xnum(0 + 11 * 8, 0, temp, 2, 16, 0, BLUE);                  /* 显示整数部分 */
-        lcd_show_xnum(0 + 14 * 8, 0, temp * 100 % 100, 2, 16, 0x80, BLUE);   /* 显示小数部分 */
+        uint32_t itmp = (uint32_t)temp;
+        uint32_t ftmp = (uint32_t)((temp - itmp) * 100);
+
+        lcd_show_xnum(0 + 11 * 8, 0, itmp, 2, 16, 0, BLUE);                  /* 显示整数部分 */
+        lcd_show_xnum(0 + 14 * 8, 0, ftmp, 2, 16, 0x80, BLUE);   /* 显示小数部分 */
         
         LED_TOGGLE();                                                           /* LED闪烁,提示程序运行 */
         vTaskDelay(250);

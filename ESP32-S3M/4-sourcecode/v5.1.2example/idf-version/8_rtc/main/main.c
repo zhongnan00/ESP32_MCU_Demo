@@ -79,6 +79,6 @@ void app_main(void)
             LED_TOGGLE();               /* 每200ms,翻转一次LED */
         }
 
-        vTaskDelay(10);
+        vTaskDelay(100/portTICK_PERIOD_MS);
     }
 }

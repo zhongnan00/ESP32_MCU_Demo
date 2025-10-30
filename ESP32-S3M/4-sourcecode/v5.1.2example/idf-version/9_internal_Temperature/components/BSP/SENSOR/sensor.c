@@ -61,3 +61,21 @@ short sensor_get_temperature(void)
 
     return temp;
 }
+
+
+float sensor_get_temperature_float(void)
+{
+    float temp;
+
+    /* 启用温度传感器 */
+    rev_flag |= temperature_sensor_enable(temp_handle);
+
+    /* 获取传输的传感器数据 */ 
+    rev_flag |= temperature_sensor_get_celsius(temp_handle, &temp);
+
+    /* 温度传感器使用完毕后，禁用温度传感器，节约功耗 */
+    rev_flag |= temperature_sensor_disable(temp_handle);
+    ESP_ERROR_CHECK(rev_flag);
+
+    return temp;
+}

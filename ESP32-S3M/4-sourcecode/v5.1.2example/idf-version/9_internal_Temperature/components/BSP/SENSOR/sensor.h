@@ -38,4 +38,6 @@
 void temperature_sensor_init(void); /* 初始化内部温度传感器 */
 short sensor_get_temperature(void); /* 获取内部温度传感器温度值 */
 
+float sensor_get_temperature_float(void);
+
 #endif
