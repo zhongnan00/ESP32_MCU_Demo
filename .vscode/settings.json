@@ -232,7 +232,9 @@
         "spi.h": "c",
         "exfuns.h": "c",
         "piclib.h": "c",
-        "tud_flash.h": "c"
+        "tud_flash.h": "c",
+        "ble_app.h": "c",
+        "rmt_rx.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

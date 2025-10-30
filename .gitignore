@@ -39,6 +39,10 @@ ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/14_picture/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/15_usb_uart/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/16_usb_flash_u/build/*
 ESP32-S3M/4-sourcecode/v5.1.2example/idf-version/17_usb_sd_u/build/*
+
+ESP32-S3M/4-sourcecode/v5.1.2example/extend-idf/01_WiFi_SCAN/build/*
+ESP32-S3M/4-sourcecode/v5.1.2example/extend-idf/02_WiFi_STA/build/*
+
 ESP32-WROOM-32E/hello/build/*
 ESP32-WROOM-32E/bt_l2cap_server/build/*
 Kconfig/build/*
