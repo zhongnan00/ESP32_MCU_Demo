@@ -234,7 +234,10 @@
         "piclib.h": "c",
         "tud_flash.h": "c",
         "ble_app.h": "c",
-        "rmt_rx.h": "c"
+        "rmt_rx.h": "c",
+        "audio_bsp.h": "c",
+        "custom.h": "c",
+        "gui_guider.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true

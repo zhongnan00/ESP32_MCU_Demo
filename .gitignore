@@ -45,4 +45,5 @@ ESP32-S3M/4-sourcecode/v5.1.2example/extend-idf/02_WiFi_STA/build/*
 
 ESP32-WROOM-32E/hello/build/*
 ESP32-WROOM-32E/bt_l2cap_server/build/*
+ESP32-WROOM-32E/demo-icp/build/*
 Kconfig/build/*
