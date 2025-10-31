@@ -67,9 +67,8 @@ esp_err_t eeprom_get_sn(char *buffer)
     // }
     return ESP_OK;
 }
-
-
  
+
 void eeprom_get_current_sn(char *buffer)
 {
     sprintf(buffer, "%s", probe_sn);
