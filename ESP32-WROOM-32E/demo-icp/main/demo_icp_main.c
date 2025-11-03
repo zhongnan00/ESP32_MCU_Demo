@@ -8,6 +8,16 @@
 #include "bluetooth_app.h"
 
 
+/**
+ * @brief 
+ *  line connection:
+ *  VCC  -> 3.3V
+ *  GND  -> GND
+ *  SDA  -> GPIO21
+ *  SCL  -> GPIO22
+ */
+
+
 void app_main(void)
 {
     esp_err_t ret = nvs_flash_init();
@@ -19,7 +29,7 @@ void app_main(void)
 
 
     bluetooth_app_start();
-    // sensor_comm_init();
+    sensor_comm_init();
 
     while (1)
     {
@@ -27,3 +37,24 @@ void app_main(void)
         vTaskDelay(1000);   //1000ms
     }
 }
+
+
+
+/**
+ * @brief connector pin definition (old version of cable)
+ * p1: i2c_sda
+ * p3: gnd
+ * p5: pluged in detect, PA1
+ * p7: pluged in detect, PA0
+ * p9: vcc 5.2
+ * 
+ * p2: i2c_scl
+ * p4: gnd
+ * p6: gnd
+ * p8: gnd
+ * p10: gnd
+ * 
+ */
+
+
+

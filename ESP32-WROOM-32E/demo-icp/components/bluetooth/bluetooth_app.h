@@ -22,6 +22,9 @@
 
 void bluetooth_app_start(void);
 
+void bt_send_data_to_client(const char *data);
+
+void bt_send_data_to_client_binary(const uint8_t *data, uint16_t len);
 
 
 #endif  // __BLUETOOTH_APP_H_

@@ -73,3 +73,34 @@ void eeprom_get_current_sn(char *buffer)
 {
     sprintf(buffer, "%s", probe_sn);
 }
+
+
+esp_err_t eeprom_get_sn_info(ts_sensor_eeprom_t *data)
+{
+    uint8_t year= 0x0;
+    uint8_t type = 0x0;
+    uint32_t num = 0x0;
+
+    uint8_t sn[5] = {0};
+    esp_err_t ret = eeprom_read_bytes(0xA0, sn, 5);
+    if(ret != ESP_OK){
+        return ret;
+    }
+
+    year = sn[0];
+    type = sn[1];
+
+    num += sn[2];
+    num <<= 8;
+    num += sn[3];
+    num <<= 8;
+    num += sn[4];
+
+    data->header = HEADER_SENSOR_EEPROM;
+    data->year = year;
+    data->type = type;
+    data->num = num;
+
+    return ret;
+}
+

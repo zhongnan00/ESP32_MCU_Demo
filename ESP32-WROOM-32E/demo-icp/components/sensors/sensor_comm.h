@@ -23,6 +23,7 @@ typedef enum{
     HEADER_SENSOR_EEPROM    = 0x01,
     HEADER_SENSOR_ICP       = 0x02,
     HEADER_SENSOR_TEMP      = 0x03,
+    HEADER_BLUETOOTH_PACKET  = 0xBB,
 
 }enum_header_t;
 
@@ -33,7 +34,7 @@ typedef struct {
 
 typedef struct {
     uint8_t header;
-    uint32_t temp;
+    int32_t temp;
 }ts_sensor_temp_t;
 
 typedef struct {
@@ -46,6 +47,19 @@ typedef struct {
     uint32_t cali_offset;
 }ts_sensor_eeprom_t;
 
+
+typedef struct {
+    uint8_t header;
+    uint8_t len;
+    uint8_t year;
+    uint8_t type;
+    uint32_t num;
+    int32_t pressure;
+    int32_t temp;
+    uint8_t r; //0x0D
+    uint8_t n; //0x0A
+
+}__attribute__((packed)) ts_bt_packet_t;
 
 
 void get_sensor_pressure_data(ts_sensor_pressure_t *data);

@@ -16,6 +16,7 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include <stdio.h>
+#include "sensor_comm.h"
 
 
 #define I2C_ADDR_EEPROM 0x50
@@ -46,6 +47,8 @@ esp_err_t eeprom_read_bytes(uint8_t addr, uint8_t *data, uint8_t len);
 esp_err_t eeprom_probe_test(void);
 
 esp_err_t eeprom_get_sn(char *buffer);
+
+esp_err_t eeprom_get_sn_info(ts_sensor_eeprom_t *data);
 
 
 

@@ -29,7 +29,9 @@
 #define SPP_SERVER_NAME "esp32_spp_server"
 #define SPP_SHOW_DATA 0
 #define SPP_SHOW_SPEED 1
-#define SPP_SHOW_MODE SPP_SHOW_SPEED    /*Choose show mode: show data or speed*/
+#define SPP_SHOW_MODE SPP_SHOW_DATA //SPP_SHOW_SPEED    /*Choose show mode: show data or speed*/
+
+static uint32_t bt_current_spp_handle = 0;  // store connected client handle
 
 
 static const char local_device_name[] = "ESP_BT_L2CAP_SERVER";
@@ -39,8 +41,27 @@ static const bool esp_spp_enable_l2cap_ertm = true;
 static struct timeval time_new, time_old;
 static long data_num = 0;
 
-static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_AUTHENTICATE;
+static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_NONE;  //ESP_SPP_SEC_AUTHENTICATE;
 static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
+
+
+
+void bt_send_data_to_client(const char *data)
+{
+    if (bt_current_spp_handle != 0) {
+        esp_spp_write(bt_current_spp_handle, strlen(data), (uint8_t *)data);
+    } 
+    else {
+        // ESP_LOGW(SPP_TAG, "No client connected, cannot send");
+    }
+}
+
+void bt_send_data_to_client_binary(const uint8_t *data, uint16_t len)
+{
+    if (bt_current_spp_handle != 0) {
+        esp_spp_write(bt_current_spp_handle, len, (uint8_t *)data);
+    } 
+}
 
 
 
@@ -88,8 +109,14 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         ESP_LOGI(SPP_TAG, "ESP_SPP_OPEN_EVT");
         break;
     case ESP_SPP_CLOSE_EVT:
-        ESP_LOGI(SPP_TAG, "ESP_SPP_CLOSE_EVT status:%d handle:%"PRIu32" close_by_remote:%d", param->close.status,
-                 param->close.handle, param->close.async);
+        {
+            if (param->close.handle == bt_current_spp_handle) {
+                bt_current_spp_handle = 0;
+            }
+            ESP_LOGI(SPP_TAG, "ESP_SPP_CLOSE_EVT status:%d handle:%"PRIu32" close_by_remote:%d", param->close.status,
+            param->close.handle, param->close.async);
+        }
+            
         break;
     case ESP_SPP_START_EVT:
         if (param->start.status == ESP_SPP_SUCCESS) {
@@ -116,6 +143,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
                  param->data_ind.len, param->data_ind.handle);
         if (param->data_ind.len < 128) {
             ESP_LOG_BUFFER_HEX("", param->data_ind.data, param->data_ind.len);
+            bt_send_data_to_client("ACK\r\n");
         }
 #else
         gettimeofday(&time_new, NULL);
@@ -132,9 +160,10 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
         ESP_LOGI(SPP_TAG, "ESP_SPP_WRITE_EVT");
         break;
     case ESP_SPP_SRV_OPEN_EVT:
+        bt_current_spp_handle = param->srv_open.handle;
         ESP_LOGI(SPP_TAG, "ESP_SPP_SRV_OPEN_EVT status:%d handle:%"PRIu32", rem_bda:[%s]", param->srv_open.status,
                  param->srv_open.handle, bda2str(param->srv_open.rem_bda, bda_str, sizeof(bda_str)));
-        gettimeofday(&time_old, NULL);
+        // gettimeofday(&time_old, NULL);
         break;
     case ESP_SPP_SRV_STOP_EVT:
         ESP_LOGI(SPP_TAG, "ESP_SPP_SRV_STOP_EVT");
