@@ -35,6 +35,7 @@ typedef struct {
 typedef struct {
     uint8_t header;
     int32_t temp;
+    uint32_t ohm;
 }ts_sensor_temp_t;
 
 typedef struct {
@@ -51,11 +52,16 @@ typedef struct {
 typedef struct {
     uint8_t header;
     uint8_t len;
+    uint8_t plug_state;
+    uint8_t zero_flag;
     uint8_t year;
     uint8_t type;
     uint32_t num;
+    uint32_t zero_time;
+    uint32_t cali_offset;
     int32_t pressure;
     int32_t temp;
+    uint32_t ohm;
     uint8_t r; //0x0D
     uint8_t n; //0x0A
 
@@ -73,5 +79,7 @@ void sensor_temp_sync_init(void);
 void sensor_temp_sync_start(void);
 
 void sensor_comm_init();
+
+int32_t sensor_ntc_temp_calculate(ts_sensor_temp_t *data);
 
 #endif /* SENSOR_COMM_H_ */

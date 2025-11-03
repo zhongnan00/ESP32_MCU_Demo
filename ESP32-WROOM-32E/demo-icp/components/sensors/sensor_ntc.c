@@ -13,6 +13,8 @@
 #include "lib_soft_i2c.h"
 #include "esp_log.h"
 
+#define I2C_ADDR_NTC 0x40
+
 static const char *TAG = "sensor_ntc";
 
 esp_err_t ntc_write_bytes(uint8_t reg_addr, uint8_t *data, uint8_t len)
@@ -91,6 +93,29 @@ esp_err_t ntc_sync_start(void)
     i2c_cmd_link_delete(i2c_cmd);
     return ret;
 }
+
+esp_err_t ntc_read_temp_value(uint32_t *temp)
+{
+    uint8_t data[3] = {0};
+    ntc_read_bytes(0x10, data, 3);
+    
+    if(data[0] == 0xFF && data[1] == 0xFF && data[2] == 0xFF)
+    {
+        // ESP_LOGE(TAG, "Error ntc read fail!");
+        return 0;
+    }
+
+    if(data[0] == 0x00 && data[1] == 0x00 && data[2] == 0x00)
+    {
+        // ESP_LOGE(TAG, "Error ntc read fail!");
+        return 0;
+    }
+
+    *temp = (data[0]*65536 + data[1]*256 + data[2]);
+
+    return ESP_OK;
+}
+
 
 float ntc_read_temp(void)
 {

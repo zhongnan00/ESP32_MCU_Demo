@@ -12,6 +12,8 @@
 #include "sensor_elmos.h"
 #include "lib_soft_i2c.h"
 
+#define I2C_ADDR_ELMOS 0x6C
+
 static const char *TAG = "sensor_elmos";
 
 esp_err_t elmos_write_bytes(uint8_t reg_addr, uint8_t *data, uint8_t len)

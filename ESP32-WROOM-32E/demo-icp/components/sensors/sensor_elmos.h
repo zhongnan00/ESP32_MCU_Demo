@@ -16,7 +16,7 @@
 #include <stdio.h>
 
 
-#define I2C_ADDR_ELMOS 0x6C
+
 
 esp_err_t elmos_write_bytes(uint8_t addr, uint8_t *data, uint8_t len);
 

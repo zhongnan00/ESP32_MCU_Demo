@@ -19,7 +19,7 @@
 #include "sensor_comm.h"
 
 
-#define I2C_ADDR_EEPROM 0x50
+
 
 
  typedef enum{
@@ -35,6 +35,9 @@
     ADDR_ICT_COEF_5     = 0x60,
     ADDR_ICT_CALI_FLAG  = 0x70,
 
+    ADDR_ICP_CALI_FLAG  = 0x80,
+    ADDR_FACTORY_DATE   = 0x90,
+    ADDR_PROBE_SN       = 0xA0,
 
 }enum_e2prom_addr;
 
@@ -49,6 +52,16 @@ esp_err_t eeprom_probe_test(void);
 esp_err_t eeprom_get_sn(char *buffer);
 
 esp_err_t eeprom_get_sn_info(ts_sensor_eeprom_t *data);
+
+esp_err_t eeprom_get_zero_flag(uint8_t *flag);
+
+esp_err_t eeprom_get_ntc_cali_flag(uint8_t *flag);
+
+esp_err_t eeprom_get_ntc_coef(uint8_t index, uint64_t *coef);
+
+esp_err_t eeprom_get_zero_time(uint32_t *zero_time);
+
+esp_err_t eeprom_get_cali_offset(uint32_t *cali_offset);
 
 
 

@@ -239,7 +239,8 @@
         "custom.h": "c",
         "gui_guider.h": "c",
         "user_config.h": "c",
-        "esp_spp_api.h": "c"
+        "esp_spp_api.h": "c",
+        "sensor_gpio.h": "c"
     },
     "security.workspace.trust.enabled":false,
     "webview.experimental.useIframes": true
