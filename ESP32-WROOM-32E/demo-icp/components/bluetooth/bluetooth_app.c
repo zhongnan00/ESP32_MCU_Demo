@@ -34,7 +34,7 @@
 static uint32_t bt_current_spp_handle = 0;  // store connected client handle
 
 
-static const char local_device_name[] = "ESP_BT_L2CAP_SERVER";
+static const char local_device_name[] = "mdt-probe-kits";  //"ESP_BT_L2CAP_SERVER";
 static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
 static const bool esp_spp_enable_l2cap_ertm = true;
 
