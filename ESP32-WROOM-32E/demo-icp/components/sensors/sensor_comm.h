@@ -58,7 +58,7 @@ typedef struct {
     uint8_t type;
     uint32_t num;
     uint32_t zero_time;
-    uint32_t cali_offset;
+    int32_t cali_offset;
     int32_t pressure;
     int32_t temp;
     uint32_t ohm;
@@ -81,5 +81,9 @@ void sensor_temp_sync_start(void);
 void sensor_comm_init();
 
 int32_t sensor_ntc_temp_calculate(ts_sensor_temp_t *data);
+
+void timer_callback(void *arg);
+
+
 
 #endif /* SENSOR_COMM_H_ */

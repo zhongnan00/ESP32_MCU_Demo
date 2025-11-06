@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2025
  * 
  */
-
+#include "esp_timer.h"
 #include "math.h"
 #include "lib_soft_i2c.h"
 #include "lib_ring_buffer.h"
@@ -37,6 +37,10 @@ static double  probe_ntc_coef_double[5] = {0.0};
 static uint32_t probe_zero_time = 0;
 static uint32_t probe_cali_offset = 0;
 
+static SemaphoreHandle_t  sensor_data_mutex = NULL ;
+static esp_timer_handle_t sensor_timer_handle = NULL;
+
+ 
 void sensor_temp_sync_init(void)
 {
     ntc_config();
@@ -85,11 +89,11 @@ int32_t sensor_ntc_temp_calculate(ts_sensor_temp_t *data)
 void get_sensor_pressure_data(ts_sensor_pressure_t *data)
 {
     float pressure = elmos_get_pressure();
-    // if(ring_buffer_is_full(&icp_ring_buffer))
-    // {
-    //     ring_buffer_pop_only(&icp_ring_buffer);
-    // }
-    // ring_buffer_push(&icp_ring_buffer, (int32_t)(pressure));
+    if(ring_buffer_is_full(&icp_ring_buffer))
+    {
+        ring_buffer_pop_only(&icp_ring_buffer);
+    }
+    ring_buffer_push(&icp_ring_buffer, (int32_t)(pressure) - (int32_t)probe_cali_offset);
 
     data->header = HEADER_SENSOR_ICP;
     data->pressure = (int32_t)(pressure);
@@ -128,7 +132,7 @@ static void sensor_comm_send_task(void *param) {
 
     while (1) {
         /* Send sensor notify every 1 second */
-        counter++;
+
         
         //check gpio
         uint8_t gpio_state = get_sensor_gpio_state();
@@ -151,18 +155,23 @@ static void sensor_comm_send_task(void *param) {
             bt_packet.ohm = 0;
             bt_send_data_to_client_binary((uint8_t *)&bt_packet, sizeof(ts_bt_packet_t));
 
-            vTaskDelay(pdMS_TO_TICKS(200));
+            vTaskDelay(pdMS_TO_TICKS(500));
+            counter =0;
+            memset(probe_ntc_coef, 0, sizeof(probe_ntc_coef)); 
+            memset(probe_ntc_coef_double, 0, sizeof(probe_ntc_coef_double));
+            temp_data.temp = 0;
+            temp_data.ohm = 0;
             continue;
         }
 
         if(gpio_state != last_plug_state)
         {
-            
+            counter =0;
             vTaskDelay(pdMS_TO_TICKS(500)); //debounce
             gpio_state = get_sensor_gpio_state();
             if(gpio_state)
             {
-                printf("Sensor unplugged\r\n");
+                printf("Sensor may unplugged,retry\r\n");
                 continue;
             }
             //read the eeprom data;
@@ -171,20 +180,28 @@ static void sensor_comm_send_task(void *param) {
             bt_packet.year = eeprom_data.year;
             bt_packet.type = eeprom_data.type;
             bt_packet.num = eeprom_data.num;
+            vTaskDelay(pdMS_TO_TICKS(100));
 
             //zero flag
             eeprom_get_zero_flag(&probe_zero_flag);
             printf("Probe zero flag: %x\r\n", probe_zero_flag);
             bt_packet.zero_flag = probe_zero_flag;
+            vTaskDelay(pdMS_TO_TICKS(100));
             //ntc cali flag
             eeprom_get_ntc_cali_flag(&probe_ntc_cali_flag);
             printf("Probe ntc cali flag: %x\r\n", probe_ntc_cali_flag);
+            vTaskDelay(pdMS_TO_TICKS(100));
             //ntc coef
             eeprom_get_ntc_coef(ADDR_ICT_COEF_1, &probe_ntc_coef[0]);
+            vTaskDelay(pdMS_TO_TICKS(100));
             eeprom_get_ntc_coef(ADDR_ICT_COEF_2, &probe_ntc_coef[1]);
+            vTaskDelay(pdMS_TO_TICKS(100));
             eeprom_get_ntc_coef(ADDR_ICT_COEF_3, &probe_ntc_coef[2]);
+            vTaskDelay(pdMS_TO_TICKS(100));
             eeprom_get_ntc_coef(ADDR_ICT_COEF_4, &probe_ntc_coef[3]);
+            vTaskDelay(pdMS_TO_TICKS(100));
             eeprom_get_ntc_coef(ADDR_ICT_COEF_5, &probe_ntc_coef[4]);
+            vTaskDelay(pdMS_TO_TICKS(100));
 
             //convert to double
             for(int i=0; i<5; i++){
@@ -196,9 +213,11 @@ static void sensor_comm_send_task(void *param) {
             //zero time
             eeprom_get_zero_time(&probe_zero_time);
             bt_packet.zero_time = probe_zero_time;
+            vTaskDelay(pdMS_TO_TICKS(100));
 
             eeprom_get_cali_offset(&probe_cali_offset);
-            bt_packet.cali_offset = probe_cali_offset;
+            bt_packet.cali_offset = (int32_t)probe_cali_offset;
+            vTaskDelay(pdMS_TO_TICKS(100));
 
             //ntc init
             ntc_config();
@@ -209,34 +228,38 @@ static void sensor_comm_send_task(void *param) {
 
         last_plug_state = gpio_state;
 
+        if(xSemaphoreTake(sensor_data_mutex, portMAX_DELAY) == pdTRUE)
+        {
+            //got the semaphore
+            counter++;        
+            //temp
+            if(counter == 1)
+            {
+                sensor_ntc_temp_calculate(&temp_data);
+                printf("temp: %.2f C\r\n", temp_data.temp / 100.0f);
+                bt_packet.temp = temp_data.temp;
+                bt_packet.ohm = temp_data.ohm;
+                sensor_temp_sync_start();
+                // bt_send_data_to_client_binary((uint8_t *)&bt_packet, sizeof(ts_bt_packet_t));
+            }
+
+            get_sensor_pressure_data(&pressure_data);
+            // printf("pressure: %.2f mmHg\r\n", pressure_data.pressure / 100.0f);
+            if(counter == 25) //25Hz
+            {
+                int32_t sum_pp = 0;
+                for(int i=0; i<icp_ring_buffer.count; i++){
+                    sum_pp += icp_ring_buffer.buffer[i];
+                }
+                sum_pp /= icp_ring_buffer.count;
+                bt_packet.pressure = sum_pp;
+                bt_send_data_to_client_binary((uint8_t *)&bt_packet, sizeof(ts_bt_packet_t));
+
+                counter = 0;
+            }
+
         
-        //temp
-        if(counter == 1)
-        {
-            sensor_ntc_temp_calculate(&temp_data);
-            printf("temp: %.2f C\r\n", temp_data.temp / 100.0f);
-            bt_packet.temp = temp_data.temp;
-            bt_packet.ohm = temp_data.ohm;
-            sensor_temp_sync_start();
-        }
-
-        get_sensor_pressure_data(&pressure_data);
-        // printf("pressure: %.2f mmHg\r\n", pressure_data.pressure / 100.0f);
-        if(counter %30 == 0)
-        {
-            bt_packet.pressure = pressure_data.pressure;
-            bt_send_data_to_client_binary((uint8_t *)&bt_packet, sizeof(ts_bt_packet_t));
-        }
-
-
-        if(counter  == 33)
-        {
-            counter = 0;
-        }
-
-    
-        /* Sleep */
-        vTaskDelay(pdMS_TO_TICKS(30));
+        }  //semaphore end
     }
 
     /* Clean up at exit */
@@ -244,6 +267,14 @@ static void sensor_comm_send_task(void *param) {
 }
 
 
+void timer_callback(void *arg)
+{
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    xSemaphoreGiveFromISR(sensor_data_mutex, &xHigherPriorityTaskWoken);
+    // if (xHigherPriorityTaskWoken == pdTRUE) {
+    //     portYIELD_FROM_ISR();
+    // }
+}
 
 
 void sensor_comm_init()
@@ -251,6 +282,16 @@ void sensor_comm_init()
     sensor_gpio_init();
     probe_i2c_bus_init();
     sensor_temp_sync_init();
+
+    sensor_data_mutex = xSemaphoreCreateBinary();
+    const esp_timer_create_args_t timer_args = {
+        .callback = &timer_callback,
+        .name = "sensor_timer",
+        .arg = sensor_data_mutex
+    };
+
+    esp_timer_create(&timer_args, &sensor_timer_handle);
+    esp_timer_start_periodic(sensor_timer_handle, 1000000/25); //25Hz
 
     xTaskCreate(sensor_comm_send_task, "Sensor Send", 4*1024, NULL, 5, NULL);
 }

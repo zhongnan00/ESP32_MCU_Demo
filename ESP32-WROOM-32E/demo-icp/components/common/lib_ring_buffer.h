@@ -20,9 +20,9 @@
 #define RING_BUFFER_SIZE 16
 
 typedef struct {
-    int buffer[RING_BUFFER_SIZE];
-    int head;
-    int tail;
+    int32_t buffer[RING_BUFFER_SIZE];
+    int32_t head;
+    int32_t tail;
     uint16_t count;
 } ring_buffer_t;
 
